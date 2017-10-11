@@ -1,0 +1,454 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 5 | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-12-02T16:00:00.000Z"><a href="/2012/12/03/Java-ClassLoader-AccessibleRevisited/">2012-12-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/12/03/Java-ClassLoader-AccessibleRevisited/">Java ClassLoader Revisit Visibility Rule</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>By default, a parent classLoader won’t access any class loaded by the child loader. However, we can get around the rule by setting contextClassloader.   </p>
+<p>Create and compile the two classes:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FruitShop</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">getFruit</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException,</span></div><div class="line"><span class="function">			InstantiationException, IllegalAccessException </span>&#123;</div><div class="line">		ClassLoader cl = Thread.currentThread().getContextClassLoader();</div><div class="line">		Class cls = cl.loadClass(<span class="string">"Apple"</span>);</div><div class="line">		<span class="keyword">return</span> (Fruit) cls.newInstance();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span> </span>&#123;</div><div class="line">	<span class="function">String <span class="title">taste</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Create a jar <code>jar -cvf test.jar FruitShop.class Fruit.class</code> and put into <code>jre/lib/ext/</code></p>
+<p>Now create the testing classes:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">taste</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"sweet"</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.net.MalformedURLException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadFrmContext</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException </span>&#123;</div><div class="line">		System.out.println(<span class="keyword">new</span> FruitShop().getFruit().taste());</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Make sure Fruit.class and FruitShop.class are <strong>NOT</strong> on your classpath, but leave Apple.class on the classpath, run <code>java LoadFrmContext</code> will output <em>sweet</em>.</p>
+<p>In this example, the FruitShop class was loaded by the ext classloader, which then get the loader from Thread context. By default the loader is the one that started the application. Apple happens to be on its classpath so it was loaded without any issue.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-29T16:00:00.000Z"><a href="/2012/11/30/Java-ClassLoader-Delegation/">2012-11-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/11/30/Java-ClassLoader-Delegation/">Java ClassLoader Delegation Model</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Every java developer must bear this in mind. This is the default java class loading mechanism.   </p>
+<p><img src="/images/defaultloader.png" alt=""></p>
+<p>Let’s illustrate the following snippet of code:</p>
+<pre><code class="java"><span class="keyword">import</span> sun.net.spi.nameservice.dns.DNSNameServiceDescriptor;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultLoading</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+        System.out.println(<span class="string">"DefaultLoading loader:"</span> + DefaultLoading.class.getClassLoader());
+        String m = <span class="string">"hello"</span>;
+        System.out.println(<span class="string">"String loader:"</span>+ m.getClass().getClassLoader());
+        System.out.println(<span class="string">"DNSNameServiceDescriptor loader"</span> + DNSNameServiceDescriptor.class.getClassLoader());
+        System.out.println(<span class="string">"Duck loader:"</span> + Duck.class.getClassLoader());
+    }
+}
+</code></pre>
+<p>When I run <code>java -cp . DefaultLoading</code> in a directory that contains <em>DefaultLoading.class</em>, on my machine this outputs:   </p>
+<blockquote>
+<p>DefaultLoading loader:sun.misc.Launcher$AppClassLoader@73d16e93<br>String loader:null<br>DNSNameServiceDescriptor loadersun.misc.Launcher$ExtClassLoader@33909752<br>Duck loader:sun.misc.Launcher$AppClassLoader@73d16e93</p>
+</blockquote>
+<p>Here’s what happened:   </p>
+<ol>
+<li>By default, each loader will delegate to its parent to when a class is seen and must be resolved. This occurs recursively until we reach the bootstrap loader. If and only if none of its upstream ancestry loader could load the class will the loader try to load it itself. In this case, When JVM finds the entry class <em>DefaultLoading</em> is not loaded yet, it tries to load with system loader,which in turn delegates to extension loader. Finally the extension loader delegates to the bootstrap loader. However, <em>DefaultLoading</em> class is not part of the java core library, nor is it placed in extension loader’s path: jre/lib/ext/, so it was loaded by system loader(sun.misc.Launcher$AppClassLoader@73d16e93). </li>
+<li>Since <em>String</em> class is part is part of java.lang package, it’s loaded by the bootstrap loader, which is <em>null</em> in the output.<br>Actually, the same is true for <em>System</em> class and <em>PrintStream</em> class(which is the static <strong>out</strong> field of <em>System</em>).<br>Note that classes loaded by any of the upstream ancestor is visible to the current loader, but <strong>NOT</strong> vice versa.</li>
+<li><em>DNSNameServiceDescriptor</em> is in jre/lib/ext/dnsns.jar. That’s why its loader is ExtClassLoader;</li>
+<li>As the <strong>out</strong> field in <em>System</em>, <em>Duck</em> will be loaded by the loader that loaded <em>DefaultLoading</em>. It could be loaded by neither bootstrap nor extension loader, for it’s only available on your class path. All delegation loading fails, it’s loaded finally by the same loader of <em>DefaultLoading</em>, i.e. AppClassLoader@73d16e93</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-02-13T16:00:00.000Z"><a href="/2011/02/14/Recursive-XSLT/">2011-02-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2011/02/14/Recursive-XSLT/">Recursive XSLT Example</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Given the following xml:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bookstore</span> <span class="attr">specialty</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">book</span> <span class="attr">style</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">author</span> <span class="attr">rank</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">publication</span>&gt;</span>Selected Short Stories of</div><div class="line">                <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">publication</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">author</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">book</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">magazine</span> <span class="attr">style</span>=<span class="string">"glossy"</span> <span class="attr">frequency</span>=<span class="string">"monthly"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">price</span>&gt;</span>2.50<span class="tag">&lt;/<span class="name">price</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">subscription</span> <span class="attr">price</span>=<span class="string">"24"</span> <span class="attr">per</span>=<span class="string">"year"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">magazine</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bookstore</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>I wanted to sum up the depth that each element appears. This is the xsl file:</p>
+<figure class="highlight xsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">xsl:stylesheet</span> <span class="attr">version</span>=<span class="string">"1.0"</span> <span class="attr">xmlns:xsl</span>=<span class="string">"http://www.w3.org/1999/XSL/Transform"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">xsl:output</span> <span class="attr">indent</span>=<span class="string">"yes"</span> <span class="attr">standalone</span>=<span class="string">"yes"</span>&gt;</span><span class="tag">&lt;/<span class="name">xsl:output</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">xsl:template</span> <span class="attr">match</span>=<span class="string">"/"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">levels</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:call-template</span> <span class="attr">name</span>=<span class="string">"processLevel"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:with-param</span> <span class="attr">name</span>=<span class="string">"level"</span> <span class="attr">select</span>=<span class="string">"1"</span>&gt;</span><span class="tag">&lt;/<span class="name">xsl:with-param</span>&gt;</span> <span class="comment">&lt;!-- Similar to passing function arguments --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:with-param</span> <span class="attr">name</span>=<span class="string">"nodes"</span> <span class="attr">select</span>=<span class="string">"./*"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">xsl:call-template</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">levels</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">xsl:template</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">xsl:template</span> <span class="attr">name</span>=<span class="string">"processLevel"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">xsl:param</span> <span class="attr">name</span>=<span class="string">"nodes"</span>/&gt;</span> <span class="comment">&lt;!-- Similar to function arguments definiton --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">xsl:param</span> <span class="attr">name</span>=<span class="string">"level"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">xsl:if</span> <span class="attr">test</span>=<span class="string">"$nodes"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:variable</span> <span class="attr">name</span>=<span class="string">"levelVal"</span> <span class="attr">select</span>=<span class="string">"concat('level',string($level))"</span>&gt;</span><span class="tag">&lt;/<span class="name">xsl:variable</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:element</span> <span class="attr">name</span>=<span class="string">"&#123;$levelVal&#125;"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:call-template</span> <span class="attr">name</span>=<span class="string">"buildName"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">xsl:with-param</span> <span class="attr">name</span>=<span class="string">"nodes"</span> <span class="attr">select</span>=<span class="string">"$nodes"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">xsl:call-template</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">xsl:element</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:variable</span> <span class="attr">name</span>=<span class="string">"children"</span> <span class="attr">select</span>=<span class="string">"$nodes/*"</span>&gt;</span><span class="tag">&lt;/<span class="name">xsl:variable</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:if</span> <span class="attr">test</span>=<span class="string">"$children"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:call-template</span> <span class="attr">name</span>=<span class="string">"processLevel"</span>&gt;</span> <span class="comment">&lt;!-- recursive call --&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">xsl:with-param</span> <span class="attr">name</span>=<span class="string">"level"</span> <span class="attr">select</span>=<span class="string">"number($level) + 1"</span>&gt;</span><span class="tag">&lt;/<span class="name">xsl:with-param</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">xsl:with-param</span> <span class="attr">name</span>=<span class="string">"nodes"</span> <span class="attr">select</span>=<span class="string">"$children"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">xsl:call-template</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">xsl:if</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">xsl:if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">xsl:template</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">xsl:template</span> <span class="attr">name</span>=<span class="string">"buildName"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">xsl:param</span> <span class="attr">name</span>=<span class="string">"nodes"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">xsl:for-each</span> <span class="attr">select</span>=<span class="string">"$nodes"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">xsl:choose</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:when</span> <span class="attr">test</span>=<span class="string">"position() &gt; 1"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">xsl:value-of</span> <span class="attr">select</span>=<span class="string">"concat(',',name(.))"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">xsl:when</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">xsl:otherwise</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">xsl:value-of</span> <span class="attr">select</span>=<span class="string">"name()"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">xsl:otherwise</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">xsl:choose</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">xsl:for-each</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">xsl:template</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">xsl:stylesheet</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>The result is:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">levels</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">level1</span>&gt;</span>bookstore<span class="tag">&lt;/<span class="name">level1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">level2</span>&gt;</span>book,magazine<span class="tag">&lt;/<span class="name">level2</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">level3</span>&gt;</span>author,price,subscription<span class="tag">&lt;/<span class="name">level3</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">level4</span>&gt;</span>first-name,last-name,publication<span class="tag">&lt;/<span class="name">level4</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">level5</span>&gt;</span>first-name,last-name<span class="tag">&lt;/<span class="name">level5</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">levels</span>&gt;</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-01-12T16:00:00.000Z"><a href="/2011/01/13/Useful-Xpath-Expr/">2011-01-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2011/01/13/Useful-Xpath-Expr/">Some Useful Xpath Expressions</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Given the following sample xml:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bookstore</span> <span class="attr">specialty</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">book</span> <span class="attr">style</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">author</span> <span class="attr">rank</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">publication</span>&gt;</span>Selected Short Stories of</div><div class="line">                <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">publication</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">author</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">book</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">magazine</span> <span class="attr">style</span>=<span class="string">"glossy"</span> <span class="attr">frequency</span>=<span class="string">"monthly"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">price</span>&gt;</span>2.50<span class="tag">&lt;/<span class="name">price</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">subscription</span> <span class="attr">price</span>=<span class="string">"24"</span> <span class="attr">per</span>=<span class="string">"year"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">magazine</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">my:book</span> <span class="attr">xmlns:my</span>=<span class="string">"uri:mynamespace"</span> <span class="attr">style</span>=<span class="string">"leather"</span> <span class="attr">price</span>=<span class="string">"29.50"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">my:title</span>&gt;</span>Who's Who in Trenton<span class="tag">&lt;/<span class="name">my:title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">my:author</span>&gt;</span>Robert Bob<span class="tag">&lt;/<span class="name">my:author</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">my:book</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- comment node --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bookstore</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="Find-all-elements"><a href="#Find-all-elements" class="headerlink" title="Find all elements"></a>Find all elements</h3><p><code>//*</code><br><img src="/images/xpath_all_ele.png" alt=""></p>
+<h3 id="Find-all-attributes"><a href="#Find-all-attributes" class="headerlink" title="Find all attributes"></a>Find all attributes</h3><p><code>//@*</code><br><img src="/images/xpath_all_attr.png" alt=""></p>
+<h3 id="Find-all-elements-with-child"><a href="#Find-all-elements-with-child" class="headerlink" title="Find all elements with child"></a>Find all elements with child</h3><p><img src="/images/xpath_ele_with_child.png" alt=""></p>
+<h3 id="Find-all-child-elements-of-bookstore-with-grandchild-elements"><a href="#Find-all-child-elements-of-bookstore-with-grandchild-elements" class="headerlink" title="Find all child elements of bookstore, with grandchild elements"></a>Find all child elements of bookstore, with grandchild elements</h3><p><code>/bookstore/*[*/*]</code><br><img src="/images/xpath_ele_grandchildren.png" alt=""></p>
+<h3 id="Find-last-child-element-for-each-child-of-bookstore"><a href="#Find-last-child-element-for-each-child-of-bookstore" class="headerlink" title="Find last child element for each child of bookstore"></a>Find last child element for each child of bookstore</h3><p><code>/bookstore/*/*[last()]</code><br><img src="/images/xpath_last_child.png" alt=""></p>
+<h3 id="Find-last-grandchild-element-for-bookstore"><a href="#Find-last-grandchild-element-for-bookstore" class="headerlink" title="Find last grandchild element for bookstore"></a>Find last grandchild element for bookstore</h3><p><code>(/bookstore/*/*)[last()]</code><br><img src="/images/xpath_last_grandchild.png" alt=""></p>
+<h3 id="Find-all-element-from-the-my-namespace"><a href="#Find-all-element-from-the-my-namespace" class="headerlink" title="Find all  element from the my namespace"></a>Find all <book> element from the my namespace</book></h3><p><code>//my:book</code></p>
+<h3 id="Find-publication-price-gt-3"><a href="#Find-publication-price-gt-3" class="headerlink" title="Find publication price &gt; 3"></a>Find publication price &gt; 3</h3><p><code>/bookstore[price &gt; 3]</code></p>
+<h3 id="Find-all-attrs-from-my-namespace"><a href="#Find-all-attrs-from-my-namespace" class="headerlink" title="Find all attrs from my namespace"></a>Find all attrs from my namespace</h3><p><code>//@my:*</code></p>
+<h3 id="Find-all-elements-with-last-name-or-price-as-child"><a href="#Find-all-elements-with-last-name-or-price-as-child" class="headerlink" title="Find all elements with last-name or price as child"></a>Find all elements with last-name or price as child</h3><p><code>//*[price or last-name]</code><br><img src="/images/xpath_cond_expr.png" alt=""></p>
+<h3 id="Find-all-elements-without-attributes"><a href="#Find-all-elements-without-attributes" class="headerlink" title="Find all elements without attributes"></a>Find all elements without attributes</h3><p><code>//*[not(@*)]</code></p>
+<h3 id="Find-elements-with-text-nobody"><a href="#Find-elements-with-text-nobody" class="headerlink" title="Find elements with text nobody"></a>Find elements with text nobody</h3><p><code>//*[. = &quot;nobody&quot;]</code></p>
+<h3 id="Get-text-of-my-title"><a href="#Get-text-of-my-title" class="headerlink" title="Get text of my:title"></a>Get text of my:title</h3><p><code>/bookstore/my:book/my:title/text()</code></p>
+<h3 id="Get-val-of-attribute-specialty-of-bookstore-element"><a href="#Get-val-of-attribute-specialty-of-bookstore-element" class="headerlink" title="Get val of attribute specialty of bookstore element"></a>Get val of attribute specialty of bookstore element</h3><p><code>string(/bookstore/@specialty)</code></p>
+<h3 id="Get-all-first-name-or-last-name-element"><a href="#Get-all-first-name-or-last-name-element" class="headerlink" title="Get all first name or last name element"></a>Get all first name or last name element</h3><p><code>//first-name | //last-name</code></p>
+<h3 id="Get-comment-node"><a href="#Get-comment-node" class="headerlink" title="Get comment node"></a>Get comment node</h3><p><code>/bookstore/comment()</code></p>
+<h3 id="Select-all-node-of-magazine"><a href="#Select-all-node-of-magazine" class="headerlink" title="Select all node of magazine"></a>Select all node of magazine</h3><p><code>/bookstore/magazine[1]/node()</code></p>
+<h3 id="Select-everything-of-magazine"><a href="#Select-everything-of-magazine" class="headerlink" title="Select everything of magazine"></a>Select everything of magazine</h3><p><code>/bookstore/magazine[1]/node()|@*</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-05-05T16:00:00.000Z"><a href="/2010/05/06/Merge-Two-Sorted-LinkList/">2010-05-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2010/05/06/Merge-Two-Sorted-LinkList/">Merge Two Sorted Linked List</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Steps to merge List1 and List2:</p>
+<ol>
+<li>Create one temporary Node as the head of the target list. Two pointers H, L points to the head;</li>
+<li>Loop until List1 or List2 becomes null, in each iteration make the node with smaller value the next node of target list,<br>breaks the original chain.</li>
+<li>If List1 is null, chain List2 to target list, otherwise append List1 to target list;</li>
+<li>Remove the temporary head, return the succeeding node.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSortedLinkedList</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">merge</span><span class="params">(LinkedNode l1, LinkedNode l2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> l2;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> l1;</div><div class="line">        &#125;</div><div class="line">        LinkedNode head = <span class="keyword">new</span> LinkedNode(<span class="number">0</span>);</div><div class="line">        LinkedNode last = head;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">                last.next = l1;</div><div class="line">                last = l1;</div><div class="line">                l1 = helper(l1);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                last.next = l2;</div><div class="line">                last = l2;</div><div class="line">                l2 = helper(l2);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) &#123;</div><div class="line">            last.next = l2;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            last.next = l1;</div><div class="line">        &#125;</div><div class="line">        last = head.next;</div><div class="line">        head = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span> last;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">helper</span><span class="params">(LinkedNode small)</span> </span>&#123;</div><div class="line">        LinkedNode tmp = small.next;</div><div class="line">        small.next = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span> tmp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        LinkedNode l1 = <span class="keyword">new</span> LinkedNode(<span class="number">1</span>);</div><div class="line">        LinkedNode l2 = <span class="keyword">new</span> LinkedNode(<span class="number">3</span>);</div><div class="line">        LinkedNode l3 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l4 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l5 = <span class="keyword">new</span> LinkedNode(<span class="number">5</span>);</div><div class="line"></div><div class="line">        l1.next = l2;</div><div class="line">        l3.next = l4;</div><div class="line">        l4.next = l5;</div><div class="line">        LinkedNode result = merge(l1, l3);</div><div class="line">        <span class="keyword">while</span>(result != <span class="keyword">null</span>)&#123;</div><div class="line">            System.out.print(result.val);</div><div class="line">            result = result.next;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Loop invariant: Target list is sorted, pointer L points to last node, node(s) in target list break from original list.</p>
+<ol>
+<li>Before the while loop, apparently the assertion is true;</li>
+<li>After loop one, it still holds as illustrated in the diagram;</li>
+<li>When the while loop exits, the lower list is empty, L stays at its last node, the upper list stands apart from the sorted one.</li>
+</ol>
+<p><img src="/images/loop_invariant.png" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-03-31T16:00:00.000Z"><a href="/2010/04/01/Swap-Two-Node-Without-Exchanging-Val/">2010-04-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2010/04/01/Swap-Two-Node-Without-Exchanging-Val/">Swap Two LinkedList Node without Exchanging Value</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>First prepare some testing data to better understand this problem, or to unveil some pitfalls before jumping to code.</p>
+<ul>
+<li>Some node might not exist in the linked list</li>
+<li>Node might be the head or the tail</li>
+<li>Node might be wellformed, with predecessor and successor</li>
+<li>Node might be adjacent</li>
+<li>Predecessor and successor might overlap</li>
+<li>Node might be null</li>
+</ul>
+<p>Formulate the General Procedure:</p>
+<ol>
+<li>Loop once to save pointers to the two nodes to be swapped</li>
+<li>Suppose node1 precedes node2 in LinkedList,<br>predecessor of node1 precedes node2<br>successor of node1 succeeds node2<br>predecessor of node2 precedes node1<br>successor of node2 succeeds node1</li>
+</ol>
+<p><img src="/images/general_proc.png" alt=""></p>
+<p>However, this doesn’t work if the two nodes are next to each other. Just need to reverse the direction in this case.</p>
+<p><img src="/images/adjacent.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedNodeSwap</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">swap</span><span class="params">(LinkedNode head, <span class="keyword">int</span> i1, <span class="keyword">int</span> i2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (i1 == i2) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line">        LinkedNode tmp = head;</div><div class="line">        LinkedNode pp1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode p1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode sp1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode pp2 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode p2 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode sp2 = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (p1 == <span class="keyword">null</span> || p2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (tmp == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tmp.val == i1 || tmp.val == i2) &#123;</div><div class="line">                <span class="keyword">if</span> (p1 == <span class="keyword">null</span>) &#123;</div><div class="line">                    p1 = tmp;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    p2 = tmp;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (p1 == <span class="keyword">null</span>) &#123;</div><div class="line">                    pp1 = tmp;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    pp2 = tmp;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            tmp = tmp.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (p1 == <span class="keyword">null</span> || p2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        sp1 = p1.next;</div><div class="line">        sp2 = p2.next;</div><div class="line"></div><div class="line">        <span class="comment">//pp1-&gt;p2</span></div><div class="line">        <span class="keyword">if</span> (pp1 == <span class="keyword">null</span>) &#123;</div><div class="line">            head = p2;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            pp1.next = p2;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//p2-&gt;sp1</span></div><div class="line">        <span class="comment">//pp2-&gt;p1</span></div><div class="line">        <span class="keyword">if</span> (p1.next == p2) &#123;<span class="comment">//adjacent</span></div><div class="line">            p2.next = p1;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            p2.next = sp1;</div><div class="line">            pp2.next = p1;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//p1-&gt;sp2</span></div><div class="line">        p1.next = sp2;</div><div class="line">        <span class="keyword">return</span> head;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(LinkedNode head)</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span> (head.next != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.print(head.val + <span class="string">"-&gt;"</span>);</div><div class="line">            head = head.next;</div><div class="line">        &#125;</div><div class="line">        System.out.print(head.val);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        LinkedNode l1 = <span class="keyword">new</span> LinkedNode(<span class="number">1</span>);</div><div class="line">        LinkedNode l2 = <span class="keyword">new</span> LinkedNode(<span class="number">2</span>);</div><div class="line">        LinkedNode l3 = <span class="keyword">new</span> LinkedNode(<span class="number">3</span>);</div><div class="line">        LinkedNode l4 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l5 = <span class="keyword">new</span> LinkedNode(<span class="number">5</span>);</div><div class="line">        LinkedNode l6 = <span class="keyword">new</span> LinkedNode(<span class="number">6</span>);</div><div class="line">        LinkedNode l7 = <span class="keyword">new</span> LinkedNode(<span class="number">7</span>);</div><div class="line">        l1.next = l2;</div><div class="line">        l2.next = l3;</div><div class="line">        l3.next = l4;</div><div class="line">        l4.next = l5;</div><div class="line">        l5.next = l6;</div><div class="line"></div><div class="line">        LinkedNode head = swap(l4, <span class="number">4</span>, <span class="number">6</span>);</div><div class="line">        print(head);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-03-07T16:00:00.000Z"><a href="/2010/03/08/Amotic-Group/">2010-03-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2010/03/08/Amotic-Group/">Regex Atomic Group Demystified</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>“An atomic group is a group that, when the regex engine exits from it, automatically throws away all backtracking positions remembered by any tokens inside the group. Atomic groups are non-capturing.”</p>
+</blockquote>
+<p>For a better comprehension, let’s experiment with some examples.</p>
+<p>Match <strong>(?&gt;\d+)2</strong> against “42”, RegexBuddy fails after two attempts.</p>
+<p><img src="/images/atomic_grp_fail.png" alt=""></p>
+<p>Watch closely how it fails at first attempt. Quantifier + is greedy by default, eating as much digits as possible, leaving no chance for 2 to match for no characters are left in the testing string. Then it reports failure immediately for the attempt at first character WITHOUT BACKTRACKING.</p>
+<p>This is exactly how possessive quantifier works in Java, it’s equivalent to <strong>\d++2</strong>. Now you should be able to figure out why<br><strong>(?&gt;at|ato)m</strong> fails to match “atom” but <strong>((?&gt;at)|ato)m</strong> succeeds.</p>
+<p>So the key point of atomic group is to suppress backtracking behavior while not keeping the matching group.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/page/4/" class="alignleft prev">Prev</a>
+  
+  
+    <a href="/page/6/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

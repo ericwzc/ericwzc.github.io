@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Visualize Git Reset with Gitk | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Git Reset is one of the most confusing git commands every git user has to cope with. Yet, once tamed, it’s so good a beast that you never want to aban">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Visualize Git Reset with Gitk"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-01-19T16:00:00.000Z"><a href="/2015/01/20/Git-Reset-Visualized-By-Gitk/">2015-01-20</a></time>
+      
+      
+  
+    <h1 class="title">Visualize Git Reset with Gitk</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Git Reset is one of the most confusing git commands every git user has to cope with. Yet, once tamed, it’s so good a beast that you never want to abandon. To become a master of it, Let’s explore the dark secrets with gitk.</p>
+<p>The initial working tree looks like this:</p>
+<p><img src="/images/init_unstaged.png" alt=""></p>
+<p>It’s formed by the following commits in order of time:   </p>
+<ol>
+<li>Created and committed an empty file <code>greet</code></li>
+<li>Added one line “hello, git!” in <code>greet</code></li>
+<li>Added file <code>bye</code></li>
+</ol>
+<p>Added one line “good night” in <code>bye</code> in my working tree and added empty file <code>morning</code>, only staged file morning. For comparison, let’s remember the snapshot below of the staged area(a.k.s Index):</p>
+<p><img src="/images/init-staged.png" alt=""></p>
+<p>Now, let’s try command <strong>git reset --soft HEAD~2</strong>, what had changed is illustrated below:</p>
+<p><img src="/images/reset-soft.png" alt=""></p>
+<p>Your working area is untouched, but the staged area had added the changes in commit 2 and commit 3. Also, the HEAD now points to the commit 1.</p>
+<p>To compare, let’s restore to the initial state. And try command <strong>git reset --mixed HEAD~2</strong>, the result is the following:</p>
+<p><img src="/images/reset-mixed.png" alt=""></p>
+<p>Now it’s interesting, nothing was in staged area(in other words, the staged area is identical to the committed repository(a.k.a HEAD). Commit 2 and Commit 3 ended in your working area, <code>greet</code> appears as modified, <code>bye</code> untracked. Note that --mixed option is optional and is the default option for reset.<br>So far so good, we didn’t lose anything, we can always play around and commit later.</p>
+<p>What about --hard option? Let’s learn it the <strong>hard</strong> way, :). After restoring to the init state, simply run <strong>git reset --hard HEAD~</strong>, Here’s the result:</p>
+<p><img src="/images/reset-hard.png" alt=""></p>
+<p>Boom!<br>You cleaned everything! Commit 2 and Commit 3 are gone, nothing retained in your working area, nor in the staged area. Don’t feel too sad, you could run <strong>git reflog</strong> to find the commit SHA1 hash that includes both commits. Then run <strong>git reset --hard {SHA1}</strong> again to restore to a closest state. But the uncommitted change to <code>bye</code> and new file <code>morning</code> are permanently gone. </p>
+<p>Is that all? NO! Git allows us to specify a path in the command, but without options like soft, hard, or mixed. Run <strong>git reset HEAD~2 greet</strong> on initial tree state result in the following snapshots:</p>
+<p><img src="/images/reset-file-staged.png" alt=""></p>
+<p>You see, <code>morning</code> staged earlier  is still there, but the <code>greet</code> was restored to its state in Commit 1. Branch HEAD was still on Commit 3.</p>
+<p><img src="/images/reset-file-unstaged.png" alt=""></p>
+<p>The above picture shows the working area, the change to <code>bye</code> was untouched, but changes to <code>greet</code> in commit 2 was preserved. So the reseted file in target commit(HEAD~2 in this case) actually ends up in staged area. It’s a saf<br> on Commit 3.</p>
+<p><img src="/images/reset-file-unstaged.png" alt=""></p>
+<p>The above picture shows the working area, the change to <code>bye</code> was untouched, but changes to <code>greet</code> in commit 2 was preserved. So the reseted file in target commit(HEAD~2 in this case) actually ends up in staged area. It’s another safe command in your toolbox.</p>
+<p>To sum up, it might be easier to think of it this way: <strong>--soft</strong> roughly means “touch”, while <strong>--hard</strong> corresponds to “override”.<br>In terms of depth, <strong>--soft</strong> softly touches the staged area only, <strong>--mixed</strong> overrides the staged area and softly touches the working area, while <strong>--hard</strong> override both hardly.<br>When it comes to safety, always think twice before applying <strong>--hard</strong> option.</p>
+<p>TODO: add missing options</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Git/">Git</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Regex Prime Test Revisited | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Walking through the prime test means you have mastered the basics of Regex, which should be in every developer’s toolkit regardless of the language yo">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Regex Prime Test Revisited"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-02-13T16:00:00.000Z"><a href="/2010/02/14/Regex-Prime-Test-Revisited/">2010-02-14</a></time>
+      
+      
+  
+    <h1 class="title">Regex Prime Test Revisited</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Walking through the prime test means you have mastered the basics of Regex, which should be in every developer’s toolkit regardless of the language your are programming in.<br>Now let’s make a comparison between <code>^(s{2,})\1+$</code> and <code>^(s{2,}?)\1+$</code>. Both could test the prime nature of a number, but varies significantly when it comes to efficiency.<br>The root cause is that quantifier(including . * + ? {num, num}) is greedy by default, consuming as many characters as possible. In contrast, reluctant quantifier only consumes when it fails to match.</p>
+<p>To understand greediness of quantifier, the following is the matching details when testing against number 9(skipped ^$ matching):</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>position in regex</th>
+<th>position in string(matched)</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>p</td>
+<td>p</td>
+<td>match</td>
+</tr>
+<tr>
+<td>2</td>
+<td>p{2,}</td>
+<td>ppppppppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>3</td>
+<td>(p{2,})\1+</td>
+<td>ppppppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>4</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>pppppppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>5</td>
+<td>(p{2,})\1+</td>
+<td>pppppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>6</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>ppppppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>7</td>
+<td>(p{2,})\1+</td>
+<td>ppppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>8</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>pppppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>9</td>
+<td>(p{2,})\1+</td>
+<td>pppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>10</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>ppppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>11</td>
+<td>(p{2,})\1+</td>
+<td>ppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>12</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>pppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>13</td>
+<td>(p{2,})\1+</td>
+<td>pppppppp</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>14</td>
+<td>p{2,}  (<em>backtracking</em>)</td>
+<td>ppp</td>
+<td>match</td>
+</tr>
+<tr>
+<td>15</td>
+<td>(p{2,})\1+</td>
+<td>ppppppppp</td>
+<td>match</td>
+</tr>
+</tbody>
+</table>
+<p>Clear now? The performance difference is roughly equivalent to the following question:</p>
+<p>Which is faster to test whether a number is prime?</p>
+<ul>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">2</span>; i--)&#123;</div><div class="line">   <span class="keyword">if</span>(n % i == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">1</span>; i++)&#123;</div><div class="line">   <span class="keyword">if</span>(n % i == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Actually, if you know some maths, the known regex could be improved further to <code>^(p{2,t}?)\1+</code>,where t = floor(sqrt(n)).<br>This greatly reduces the number of attempts in failed match cases.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Regex/">Regex</a>, <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>24 problem solution | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="24点是大家比较熟悉的游戏，规则是用+,-,*,/还有括号来计算给定的4个数，结果是24.思路首先要把整数转成分数，否则无法解决某些算式，例如(5-1/5)*5，然后可用动态规划逆推法得出最终答案。
+
+假设最终表达式满足图左结构，如果a是某个数，exp是剩下的数组成的表达式, 那么有：
+
+a + e">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="24 problem solution"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-09T16:00:00.000Z"><a href="/2017/01/10/Twenty-Four/">2017-01-10</a></time>
+      
+      
+  
+    <h1 class="title">24 problem solution</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>24点是大家比较熟悉的游戏，规则是用+,-,*,/还有括号来计算给定的4个数，结果是24.<br>思路首先要把整数转成分数，否则无法解决某些算式，例如<code>(5-1/5)*5</code>，然后可用动态规划逆推法得出最终答案。</p>
+<p><img src="/images/pattern.png" alt=""></p>
+<p>假设最终表达式满足图左结构，如果a是某个数，exp是剩下的数组成的表达式, 那么有：</p>
+<ul>
+<li>a + exp = 24 (忽略exp + a = 24)</li>
+<li>a - exp = 24 </li>
+<li>exp - a = 24</li>
+<li>a / exp = 24</li>
+<li>exp / a = 24</li>
+<li>a * exp = 24（忽略 exp * a = 24)</li>
+</ul>
+<p>答案构造规律：</p>
+<ol>
+<li>开始有四个数，目标数是24</li>
+<li>去掉一个数，由当前目标推出新目标</li>
+<li>重复这个过程，当只剩一个数时，如果恰好是目标数，则输出结果</li>
+</ol>
+<p>然而还有另外一种结构如图中，幸运的是，我们可以任选两个数组合使其转成图左</p>
+<p>全部代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Eric Wang</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwentyFour</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> Fraction val;</div><div class="line">    <span class="keyword">static</span> String expr;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] t1 = &#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t2 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t3 = &#123;<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t4 = &#123;<span class="number">7</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">9</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t5 = &#123;<span class="number">1</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">10</span>&#125;;</div><div class="line">        t5 = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">24</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">24</span>&#125;;</div><div class="line">        compute(t5);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Arrays.stream(nums).forEach(i -&gt; list.add(<span class="keyword">new</span> Fraction(i, <span class="number">1</span>)));</div><div class="line">        Fraction target = <span class="keyword">new</span> Fraction(<span class="number">24</span>, <span class="number">1</span>);</div><div class="line">        compute(list, target, <span class="string">"%s"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; list.size(); j++) &#123;</div><div class="line">                <span class="keyword">if</span> (i != j) &#123;</div><div class="line">                    combineAndCompute(i, j, list, target);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">combineAndCompute</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, List&lt;Fraction&gt; list, Fraction target)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; copy = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Fraction fi = list.get(i);</div><div class="line">        Fraction fj = list.get(j);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; list.size(); k++) &#123;</div><div class="line">            <span class="keyword">if</span> (k != i &amp;&amp; k != j) &#123;</div><div class="line">                copy.add(list.get(k));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Fraction add = fi.add(fj);</div><div class="line">        val = add;</div><div class="line">        expr = String.format(<span class="string">"(%s+%s)"</span>, fi, fj);</div><div class="line">        copy.add(add);</div><div class="line">        <span class="keyword">int</span> last = copy.size() - <span class="number">1</span>;</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        Fraction minus = fi.minus(fj);</div><div class="line">        val = minus;</div><div class="line">        expr = String.format(<span class="string">"(%s-%s)"</span>, fi, fj);</div><div class="line">        copy.set(last, minus);</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        Fraction times = fi.times(fj);</div><div class="line">        val = times;</div><div class="line">        expr = String.format(<span class="string">"(%s*%s)"</span>, fi, fj);</div><div class="line">        copy.set(last, times);</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        <span class="keyword">if</span> (fj.up != <span class="number">0</span>) &#123;</div><div class="line">            Fraction divide = fi.divide(fj);</div><div class="line">            val = divide;</div><div class="line">            expr = String.format(<span class="string">"(%s/%s)"</span>, fi, fj);</div><div class="line">            copy.set(last, divide);</div><div class="line">            compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(List&lt;Fraction&gt; remain, Fraction target, String expr)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (remain.size() == <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (remain.get(<span class="number">0</span>).equals(target)) &#123;</div><div class="line">                String answ = String.format(expr, remain.get(<span class="number">0</span>));</div><div class="line">                <span class="keyword">if</span> (val != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (val.down == <span class="number">1</span>) &#123;</div><div class="line">                        answ = answ.replaceFirst(String.valueOf(val.up), TwentyFour.expr);</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        answ = answ.replaceFirst(String.valueOf(val), TwentyFour.expr);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                System.out.println(answ);</div><div class="line">                System.exit(<span class="number">0</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Fraction f : remain) &#123;</div><div class="line">            <span class="keyword">if</span> (f.up == <span class="number">0</span> &amp;&amp; target.up == <span class="number">0</span>) &#123; <span class="comment">// easy, simply multiply</span></div><div class="line">                System.out.println(String.format(expr, timesJoin(f, remain)));</div><div class="line">                System.exit(<span class="number">0</span>);</div><div class="line">            &#125;</div><div class="line">            compute(copy(remain, f), target.minus(f), String.format(expr, <span class="string">"(%s)+"</span> + f)); <span class="comment">// x + f = target</span></div><div class="line">            compute(copy(remain, f), target.add(f), String.format(expr, <span class="string">"(%s)-"</span> + f)); <span class="comment">// x - f = target</span></div><div class="line">            compute(copy(remain, f), f.minus(target), String.format(expr, f + <span class="string">"-(%s)"</span>)); <span class="comment">// f - x = target</span></div><div class="line">            <span class="keyword">if</span> (f.up != <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (target.up != <span class="number">0</span>)</div><div class="line">                    compute(copy(remain, f), f.divide(target), String.format(expr, f + <span class="string">"/(%s)"</span>));  <span class="comment">// f / x = target</span></div><div class="line">                compute(copy(remain, f), target.divide(f), String.format(expr, <span class="string">"(%s)*"</span> + f)); <span class="comment">// x * f = target</span></div><div class="line">                compute(copy(remain, f), target.times(f), String.format(expr, <span class="string">"(%s)/"</span> + f));  <span class="comment">// x / f = target</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> String <span class="title">timesJoin</span><span class="params">(Fraction f, List&lt;Fraction&gt; remain)</span> </span>&#123;</div><div class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder(f.toString());</div><div class="line">        <span class="keyword">for</span> (Fraction fr : remain) &#123;</div><div class="line">            <span class="keyword">if</span> (fr != f ) &#123;</div><div class="line">                sb.append(<span class="string">"*"</span>);</div><div class="line">                sb.append(fr);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sb.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> List&lt;Fraction&gt; <span class="title">copy</span><span class="params">(List&lt;Fraction&gt; set, Fraction toRemove)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; copy = <span class="keyword">new</span> ArrayList&lt;&gt;(set);</div><div class="line">        copy.remove(toRemove);</div><div class="line">        <span class="keyword">return</span> copy;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fraction</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (a == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> b;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (b == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> a;</div><div class="line">        &#125;</div><div class="line">        a = Math.abs(a);</div><div class="line">        b = Math.abs(b);</div><div class="line">        <span class="keyword">return</span> a &gt; b ? gcd(b, a % b) : gcd(a, b % a);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> up;</div><div class="line">    <span class="keyword">int</span> down;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fraction</span><span class="params">(<span class="keyword">int</span> up, <span class="keyword">int</span> down)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (down == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> gcd = gcd(up, down);</div><div class="line">        <span class="keyword">this</span>.up = up / gcd;</div><div class="line">        <span class="keyword">this</span>.down = down / gcd;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass()) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        Fraction fraction = (Fraction) o;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (up != fraction.up) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">return</span> down == fraction.down;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> result = up;</div><div class="line">        result = <span class="number">31</span> * result + down;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (down == <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">return</span> up + <span class="string">""</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> up + <span class="string">"/"</span> + down;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">add</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down + down * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">minus</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down - down * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">times</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">divide</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down, down * other.up);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

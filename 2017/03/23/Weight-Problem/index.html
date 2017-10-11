@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Weight Problem | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="The Weight Problem of Bachet de Meziriac
+A business man has a weight of 40 pounds.  Unfortunately he dropped his weight and this weight was broken int">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Weight Problem"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-03-22T16:00:00.000Z"><a href="/2017/03/23/Weight-Problem/">2017-03-23</a></time>
+      
+      
+  
+    <h1 class="title">Weight Problem</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The Weight Problem of Bachet de Meziriac</p>
+<p>A business man has a weight of 40 pounds.  Unfortunately he dropped his weight and this weight was broken into 4 pieces.  Fortunately, each piece is still of integer pounds, i.e. the number of the pounds of each piece is still an integer.  Meanwhile, it is amazing that using these four pieces, this business man can weigh anything of integer pounds from 1 - 40 pounds.<br>How much does each of this four pieces weigh?</p>
+<p>这个问题描述相对于国内网站要严谨很多，这不会使人轻易误入歧途。该题目至少很快告诉这信息：四个砝码的重量均在40之下，且和等于40。</p>
+<p>这里就先不考虑不等式了，在均衡情况下给出一个还像样的证明：<br>我们先分析一下理想情况，假设我们已经有若干个砝码且共能称出n种不同重量，那么再加一个更重一点的砝码最多会增加多少种重量呢？若这个新砝码的重量是m，我们至多能增加2n+1种不同重量。<br>理由如下：</p>
+<ol>
+<li>对于n种重量中的每个x, 我们可以做减法，m-x, 由于是理想情况，所以m-x 不等于n中任何已知的重量。</li>
+<li>我们可以做加法m+x，得到一种不同重量。</li>
+<li>还有就是m本身的重量</li>
+</ol>
+<p>按照这种思路，我们4个砝码理想情况下能表达不同重量的极限是多少？<br>1个. 1种<br>2个. 1 + (1 + 2 * 1) =  4种<br>3个. 4 + (1 + 2 * 4) = 13种<br>4个. 13 + (1 + 2 * 13) = 40种</p>
+<p>完美！所以这四个太巧了，刚好是理想情况。由于理想情况的假设是每次加一个更重的砝码，所以可断定这4个砝码一定没有重量相同的,直观上第n个砝码只要取2S<sub>n-1</sub>+1就可以保证这些数是稠密的(等差序列)。<br>我们来逆推一下最重的那个砝码的重量, 13 + 13 + 1 = 27<br><img src="/images/weight_problem.png" alt=""></p>
+<p>类似可以得出这四个砝码由重到轻分别是27,9,3,1<br>似乎这些砝码是3的等比序列，我们来用数学归纳法证明一下，<br>假设A<sub>n</sub>对应于第n个砝码的位置，由理想情况分析可知，S<sub>n</sub>=3S<sub>n-1</sub>+1,<br>而A<sub>n</sub>=2(S<sub>n</sub>-1)/3+1=(2S<sub>n</sub>+1)/3,<br>A<sub>n+1</sub>=(2S<sub>n+1</sub>+1)/3=(2(3S<sub>n</sub>+1)+1)/3=3(2S<sub>n</sub>+1)/3=3A<sub>n</sub></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

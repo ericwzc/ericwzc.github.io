@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Some Useful Xpath Expressions | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Given the following sample xml:
+123456789101112131415161718192021&amp;lt;bookstore specialty=&quot;novel&quot;&amp;gt;    &amp;lt;book style=&quot;novel&quot;&amp;gt;        &amp;lt;author r">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Some Useful Xpath Expressions"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-01-12T16:00:00.000Z"><a href="/2011/01/13/Useful-Xpath-Expr/">2011-01-13</a></time>
+      
+      
+  
+    <h1 class="title">Some Useful Xpath Expressions</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Given the following sample xml:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bookstore</span> <span class="attr">specialty</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">book</span> <span class="attr">style</span>=<span class="string">"novel"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">author</span> <span class="attr">rank</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">publication</span>&gt;</span>Selected Short Stories of</div><div class="line">                <span class="tag">&lt;<span class="name">first-name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">first-name</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">last-name</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">last-name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">publication</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">author</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">book</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">magazine</span> <span class="attr">style</span>=<span class="string">"glossy"</span> <span class="attr">frequency</span>=<span class="string">"monthly"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">price</span>&gt;</span>2.50<span class="tag">&lt;/<span class="name">price</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">subscription</span> <span class="attr">price</span>=<span class="string">"24"</span> <span class="attr">per</span>=<span class="string">"year"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">magazine</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">my:book</span> <span class="attr">xmlns:my</span>=<span class="string">"uri:mynamespace"</span> <span class="attr">style</span>=<span class="string">"leather"</span> <span class="attr">price</span>=<span class="string">"29.50"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">my:title</span>&gt;</span>Who's Who in Trenton<span class="tag">&lt;/<span class="name">my:title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">my:author</span>&gt;</span>Robert Bob<span class="tag">&lt;/<span class="name">my:author</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">my:book</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- comment node --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bookstore</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="Find-all-elements"><a href="#Find-all-elements" class="headerlink" title="Find all elements"></a>Find all elements</h3><p><code>//*</code><br><img src="/images/xpath_all_ele.png" alt=""></p>
+<h3 id="Find-all-attributes"><a href="#Find-all-attributes" class="headerlink" title="Find all attributes"></a>Find all attributes</h3><p><code>//@*</code><br><img src="/images/xpath_all_attr.png" alt=""></p>
+<h3 id="Find-all-elements-with-child"><a href="#Find-all-elements-with-child" class="headerlink" title="Find all elements with child"></a>Find all elements with child</h3><p><img src="/images/xpath_ele_with_child.png" alt=""></p>
+<h3 id="Find-all-child-elements-of-bookstore-with-grandchild-elements"><a href="#Find-all-child-elements-of-bookstore-with-grandchild-elements" class="headerlink" title="Find all child elements of bookstore, with grandchild elements"></a>Find all child elements of bookstore, with grandchild elements</h3><p><code>/bookstore/*[*/*]</code><br><img src="/images/xpath_ele_grandchildren.png" alt=""></p>
+<h3 id="Find-last-child-element-for-each-child-of-bookstore"><a href="#Find-last-child-element-for-each-child-of-bookstore" class="headerlink" title="Find last child element for each child of bookstore"></a>Find last child element for each child of bookstore</h3><p><code>/bookstore/*/*[last()]</code><br><img src="/images/xpath_last_child.png" alt=""></p>
+<h3 id="Find-last-grandchild-element-for-bookstore"><a href="#Find-last-grandchild-element-for-bookstore" class="headerlink" title="Find last grandchild element for bookstore"></a>Find last grandchild element for bookstore</h3><p><code>(/bookstore/*/*)[last()]</code><br><img src="/images/xpath_last_grandchild.png" alt=""></p>
+<h3 id="Find-all-element-from-the-my-namespace"><a href="#Find-all-element-from-the-my-namespace" class="headerlink" title="Find all  element from the my namespace"></a>Find all <book> element from the my namespace</book></h3><p><code>//my:book</code></p>
+<h3 id="Find-publication-price-gt-3"><a href="#Find-publication-price-gt-3" class="headerlink" title="Find publication price &gt; 3"></a>Find publication price &gt; 3</h3><p><code>/bookstore[price &gt; 3]</code></p>
+<h3 id="Find-all-attrs-from-my-namespace"><a href="#Find-all-attrs-from-my-namespace" class="headerlink" title="Find all attrs from my namespace"></a>Find all attrs from my namespace</h3><p><code>//@my:*</code></p>
+<h3 id="Find-all-elements-with-last-name-or-price-as-child"><a href="#Find-all-elements-with-last-name-or-price-as-child" class="headerlink" title="Find all elements with last-name or price as child"></a>Find all elements with last-name or price as child</h3><p><code>//*[price or last-name]</code><br><img src="/images/xpath_cond_expr.png" alt=""></p>
+<h3 id="Find-all-elements-without-attributes"><a href="#Find-all-elements-without-attributes" class="headerlink" title="Find all elements without attributes"></a>Find all elements without attributes</h3><p><code>//*[not(@*)]</code></p>
+<h3 id="Find-elements-with-text-nobody"><a href="#Find-elements-with-text-nobody" class="headerlink" title="Find elements with text nobody"></a>Find elements with text nobody</h3><p><code>//*[. = &quot;nobody&quot;]</code></p>
+<h3 id="Get-text-of-my-title"><a href="#Get-text-of-my-title" class="headerlink" title="Get text of my:title"></a>Get text of my:title</h3><p><code>/bookstore/my:book/my:title/text()</code></p>
+<h3 id="Get-val-of-attribute-specialty-of-bookstore-element"><a href="#Get-val-of-attribute-specialty-of-bookstore-element" class="headerlink" title="Get val of attribute specialty of bookstore element"></a>Get val of attribute specialty of bookstore element</h3><p><code>string(/bookstore/@specialty)</code></p>
+<h3 id="Get-all-first-name-or-last-name-element"><a href="#Get-all-first-name-or-last-name-element" class="headerlink" title="Get all first name or last name element"></a>Get all first name or last name element</h3><p><code>//first-name | //last-name</code></p>
+<h3 id="Get-comment-node"><a href="#Get-comment-node" class="headerlink" title="Get comment node"></a>Get comment node</h3><p><code>/bookstore/comment()</code></p>
+<h3 id="Select-all-node-of-magazine"><a href="#Select-all-node-of-magazine" class="headerlink" title="Select all node of magazine"></a>Select all node of magazine</h3><p><code>/bookstore/magazine[1]/node()</code></p>
+<h3 id="Select-everything-of-magazine"><a href="#Select-everything-of-magazine" class="headerlink" title="Select everything of magazine"></a>Select everything of magazine</h3><p><code>/bookstore/magazine[1]/node()|@*</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/XPath/">XPath</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

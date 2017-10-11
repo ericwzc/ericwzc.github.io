@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git Common Commands | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Squash Commitsgit commit --fixup sha1 then rebase by git rebase -i --autosquash, automatically combines commits relevant to sha1.
+Find out merge baseg">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Git Common Commands"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-10-09T16:00:00.000Z"><a href="/2016/10/10/Git-Common-Commands/">2016-10-10</a></time>
+      
+      
+  
+    <h1 class="title">Git Common Commands</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="Squash-Commits"><a href="#Squash-Commits" class="headerlink" title="Squash Commits"></a>Squash Commits</h3><p><code>git commit --fixup sha1</code> then rebase by <code>git rebase -i --autosquash</code>, automatically combines commits relevant to <strong>sha1</strong>.</p>
+<h3 id="Find-out-merge-base"><a href="#Find-out-merge-base" class="headerlink" title="Find out merge base"></a>Find out merge base</h3><p><code>git merge-base branch master</code></p>
+<h3 id="Find-changes-in-branch"><a href="#Find-changes-in-branch" class="headerlink" title="Find changes in branch"></a>Find changes in branch</h3><p><code>git diff --name-only branch master</code></p>
+<h3 id="Diff-two-commits-of-one-file"><a href="#Diff-two-commits-of-one-file" class="headerlink" title="Diff two commits of one file"></a>Diff two commits of one file</h3><p><code>git diff commit1 commit2 file1</code></p>
+<h3 id="Find-first-commit-in-branch-given-branch-is-based-on-master"><a href="#Find-first-commit-in-branch-given-branch-is-based-on-master" class="headerlink" title="Find first commit in branch(given branch is based on master)"></a>Find first commit in branch(given branch is based on master)</h3><p><code>git log master..branch --oneline | tail -1</code></p>
+<h3 id="List-files-in-a-commit"><a href="#List-files-in-a-commit" class="headerlink" title="List files in a commit"></a>List files in a commit</h3><p><code>git diff-tree --no-commit-id --name-only -r sha1</code></p>
+<h3 id="Show-stash-change"><a href="#Show-stash-change" class="headerlink" title="Show stash change"></a>Show stash change</h3><p><code>git stash show -p stash@{0}</code></p>
+<h3 id="Pretty-log"><a href="#Pretty-log" class="headerlink" title="Pretty log"></a>Pretty log</h3><p><code>git config --global alias.lg &quot;log --graph --abbrev-commit --decorate --date=relative --format=format:&#39;%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)&#39; --all&quot;</code></p>
+<p>run <code>git lg</code></p>
+<h3 id="Diff-two-files-of-different-branch"><a href="#Diff-two-files-of-different-branch" class="headerlink" title="Diff two files of different branch"></a>Diff two files of different branch</h3><p><code>git diff branch1:full/path/to/foo.txt branch2:full/path/to/foo-another.txt</code></p>
+<h3 id="Update-remote-url"><a href="#Update-remote-url" class="headerlink" title="Update remote url"></a>Update remote url</h3><p><code>git remote set-url origin git://new.url.here</code></p>
+<h3 id="Rename-branch"><a href="#Rename-branch" class="headerlink" title="Rename branch"></a>Rename branch</h3><p><code>git branch -m Release1.1 release/1.1.0</code></p>
+<h3 id="Track-remote-branch"><a href="#Track-remote-branch" class="headerlink" title="Track remote branch"></a>Track remote branch</h3><p><code>git branch -u origin/serverfix localBranch</code></p>
+<h3 id="Remove-locally-a-already-deleted-remote-branch"><a href="#Remove-locally-a-already-deleted-remote-branch" class="headerlink" title="Remove locally a already deleted remote branch"></a>Remove locally a already deleted remote branch</h3><p><code>git fetch origin --prune</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Git/">Git</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

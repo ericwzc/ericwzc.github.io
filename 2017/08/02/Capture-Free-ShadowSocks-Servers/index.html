@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Capture Free Shadowsocks Servers | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Here’s some code to update servers for your shadow socks client.
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Capture Free Shadowsocks Servers"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-01T16:00:00.000Z"><a href="/2017/08/02/Capture-Free-ShadowSocks-Servers/">2017-08-02</a></time>
+      
+      
+  
+    <h1 class="title">Capture Free Shadowsocks Servers</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Here’s some code to update servers for your shadow socks client.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line"><span class="keyword">import</span> zbarlight</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> base64</div><div class="line"><span class="keyword">import</span> collections</div><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">Server = collections.namedtuple(<span class="string">'Server'</span>, [<span class="string">'method'</span>,<span class="string">'password'</span>,<span class="string">'server'</span>,<span class="string">'server_port'</span>,<span class="string">'remarks'</span>,<span class="string">'timeout'</span>])</div><div class="line"></div><div class="line">baseUrl = <span class="string">"http://ss.ishadowx.com/img/qr/"</span></div><div class="line">lst = [<span class="string">"us"</span>, <span class="string">"jp"</span>, <span class="string">"sg"</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">()</span>:</span></div><div class="line">    result = []</div><div class="line">    <span class="keyword">for</span> cn <span class="keyword">in</span> lst:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>]:</div><div class="line">            url = baseUrl + cn + i + <span class="string">'.png'</span></div><div class="line">            print(<span class="string">'downloading '</span> + url)</div><div class="line">            rsp = requests.get(url)</div><div class="line">            <span class="keyword">with</span> open(<span class="string">'tmp.png'</span>, <span class="string">'w+b'</span>) <span class="keyword">as</span> f:</div><div class="line">                f.write(rsp.content)</div><div class="line">            result.append(parse(<span class="string">'tmp.png'</span>))</div><div class="line">    print(<span class="string">'servers retrived:'</span>)</div><div class="line">    print(json.dumps(result, indent=<span class="number">2</span>))</div><div class="line">    updateconfig(result)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(file_path)</span>:</span></div><div class="line">    <span class="keyword">with</span> open(file_path, <span class="string">'rb'</span>) <span class="keyword">as</span> image_file:</div><div class="line">        image = Image.open(image_file)</div><div class="line">        image.load()</div><div class="line">    codes = zbarlight.scan_codes(<span class="string">'qrcode'</span>, image)</div><div class="line">    codes = base64.b64decode(codes[<span class="number">0</span>])</div><div class="line">    codes = [ j <span class="keyword">for</span> i <span class="keyword">in</span> codes[<span class="number">3</span>:].split(<span class="string">'@'</span>) <span class="keyword">for</span> j <span class="keyword">in</span> i.split(<span class="string">':'</span>) ]</div><div class="line">    codes[<span class="number">3</span>] = int(codes[<span class="number">3</span>])</div><div class="line">    s = Server(*codes, remarks=<span class="string">''</span>, timeout=<span class="number">5</span>)</div><div class="line">    <span class="keyword">return</span> s._asdict()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateconfig</span><span class="params">(result)</span>:</span></div><div class="line">    jobj = <span class="keyword">None</span></div><div class="line">    <span class="keyword">with</span> open(<span class="string">'gui-config.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</div><div class="line">        jobj = json.load(fp)</div><div class="line">        jobj[<span class="string">'configs'</span>] = result</div><div class="line"></div><div class="line">    <span class="keyword">with</span> open(<span class="string">'gui-config.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> fp:</div><div class="line">        json.dump(jobj, fp, indent=<span class="number">2</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment">#os.environ['HTTP_PROXY'] = 'http://someproxy:80'</span></div><div class="line">    download()</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Python/">Python</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Javascript Introduction | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="The Company asks me to create some training materials for the interns. Here’s what I managed to put together.
+Falsy Values
+
+
+Name
+Type
+
+
+
+
+0
+Number
+
+
+">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Javascript Introduction"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-17T16:00:00.000Z"><a href="/2015/09/18/Javascript_Introduction/">2015-09-18</a></time>
+      
+      
+  
+    <h1 class="title">Javascript Introduction</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The Company asks me to create some training materials for the interns. Here’s what I managed to put together.</p>
+<h3 id="Falsy-Values"><a href="#Falsy-Values" class="headerlink" title="Falsy Values"></a>Falsy Values</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">Number</td>
+</tr>
+<tr>
+<td style="text-align:center">NaN</td>
+<td style="text-align:center">Number</td>
+</tr>
+<tr>
+<td style="text-align:center">‘’</td>
+<td style="text-align:center">String</td>
+</tr>
+<tr>
+<td style="text-align:center">false</td>
+<td style="text-align:center">Boolean</td>
+</tr>
+<tr>
+<td style="text-align:center">null</td>
+<td style="text-align:center">Object</td>
+</tr>
+<tr>
+<td style="text-align:center">undefined</td>
+<td style="text-align:center">Undefined</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h3><h4 id="Global-Scope-is-Evil"><a href="#Global-Scope-is-Evil" class="headerlink" title="Global Scope is Evil"></a>Global Scope is Evil</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> msg = <span class="string">"foo"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">greeting</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  msg = <span class="string">"bar"</span>;<span class="comment">//side effects</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">greeting2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"hello "</span> + msg);</div><div class="line">&#125;</div><div class="line">greeting();</div><div class="line">greeting2();<span class="comment">// you never know whether msg had been changed</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>[<span class="string">'greeting'</span>] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> msg = <span class="string">"bar"</span>; <span class="comment">// declare local variable and initialize to "bar"</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="Hoisting"><a href="#Hoisting" class="headerlink" title="Hoisting"></a>Hoisting</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">      String s = <span class="string">"blah"</span>;</div><div class="line">      f2();</div><div class="line">      f3();</div><div class="line">      f4(s); <span class="comment">// do something with s;</span></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (!foo) &#123;</div><div class="line">		<span class="keyword">var</span> foo = <span class="number">10</span>;</div><div class="line">	&#125;</div><div class="line">	alert(foo);</div><div class="line">&#125;</div><div class="line">bar();</div></pre></td></tr></table></figure>
+<p><strong>DECLARAION WILL BE HOISTED TO THE TOP, NOT ASSIGNMENT!</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> foo;</div><div class="line">	<span class="keyword">if</span> (!foo) &#123;</div><div class="line">		foo = <span class="number">10</span>;</div><div class="line">	&#125;</div><div class="line">	alert(foo);</div><div class="line">&#125;</div><div class="line">bar();</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> foo);</div><div class="line">	foo(); <span class="comment">// TypeError "foo is not a function"</span></div><div class="line">	bar(); <span class="comment">// "this will run!"</span></div><div class="line">	<span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// function expression assigned to local variable 'foo'</span></div><div class="line">		alert(<span class="string">"this won't run!"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123; <span class="comment">// function declaration, given the name 'bar'</span></div><div class="line">		alert(<span class="string">"this will run!"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">test();</div></pre></td></tr></table></figure>
+<p><strong>DECLARE YOUR VARIABLES AT THE TOP</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a, b, c</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">1</span>,</div><div class="line">    	bar,</div><div class="line">    	baz = <span class="string">"something"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><p>Phony Arrays &amp; Array Test<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> is_array = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</div><div class="line"> <span class="keyword">return</span> value &amp;&amp;</div><div class="line"> <span class="keyword">typeof</span> value === <span class="string">'object'</span> &amp;&amp;</div><div class="line"> <span class="keyword">typeof</span> value.length === <span class="string">'number'</span> &amp;&amp;</div><div class="line"> <span class="keyword">typeof</span> value.splice === <span class="string">'function'</span> &amp;&amp;</div><div class="line"> !(value.propertyIsEnumerable(<span class="string">'length'</span>));</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>Length<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> numbers = [<span class="string">'zero'</span>, <span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'shi'</span>, <span class="string">'go'</span>];</div><div class="line">numbers.length; <span class="comment">// 5</span></div><div class="line">numbers[<span class="number">5</span>]; <span class="comment">//undefined, no indexOfBoundExcpetion</span></div></pre></td></tr></table></figure></p>
+<p>Stack &amp; Queue<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">numbers.push(<span class="string">'SElem'</span>);</div><div class="line">numbers.pop();</div><div class="line"></div><div class="line">numbers.shift();</div><div class="line">numbers.unshift(<span class="string">'QElem'</span>);</div></pre></td></tr></table></figure></p>
+<p>Delete<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">numbers.splice(<span class="number">2</span>,<span class="number">1</span>);</div></pre></td></tr></table></figure></p>
+<p>Enumeration<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i, j;</div><div class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> numbers)&#123;&#125;</div><div class="line"><span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; numbers.length; j++)&#123;&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><h4 id="Basic-Usage"><a href="#Basic-Usage" class="headerlink" title="Basic Usage"></a>Basic Usage</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">obj.nm = <span class="string">'eric'</span>;</div><div class="line">obj.nm;</div><div class="line">obj[<span class="string">'nm'</span>];</div><div class="line"><span class="keyword">var</span> nm = obj.nm || <span class="string">'default val'</span>;</div><div class="line"><span class="keyword">typeof</span> obj.nm;<span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> f;</div><div class="line"><span class="keyword">for</span>(f <span class="keyword">in</span> obj)&#123;&#125;</div><div class="line"><span class="keyword">delete</span> obj.nm;</div></pre></td></tr></table></figure>
+<h4 id="Prototype-Chain"><a href="#Prototype-Chain" class="headerlink" title="Prototype Chain"></a>Prototype Chain</h4><p><img src="/images/prototype.jpg"></p>
+<p>Basic Idea<br><img src="/images/protocol_chain.png"></p>
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><p>Function are object that can be invoked.</p>
+<h4 id="Pass-by-value-or-reference"><a href="#Pass-by-value-or-reference" class="headerlink" title="Pass by value or reference"></a>Pass by value or reference</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeStuff</span>(<span class="params">a, b, c</span>)</span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">  a = a * <span class="number">10</span>;</div><div class="line">  b.item = <span class="string">"changed"</span>;</div><div class="line">  c = &#123;<span class="attr">item</span>: <span class="string">"changed"</span>&#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="number">10</span>;</div><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">item</span>: <span class="string">"unchanged"</span>&#125;;</div><div class="line"><span class="keyword">var</span> obj2 = &#123;<span class="attr">item</span>: <span class="string">"unchanged"</span>&#125;;</div><div class="line"></div><div class="line">changeStuff(num, obj1, obj2);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(num);</div><div class="line"><span class="built_in">console</span>.log(obj1.item);</div><div class="line"><span class="built_in">console</span>.log(obj2.item);</div></pre></td></tr></table></figure>
+<h4 id="Liternal"><a href="#Liternal" class="headerlink" title="Liternal"></a>Liternal</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</div></pre></td></tr></table></figure>
+<p>A functional liternal can appear anywhere that an expression can appear.</p>
+<h4 id="High-Order-Functions"><a href="#High-Order-Functions" class="headerlink" title="High Order Functions"></a>High Order Functions</h4><ul>
+<li>takes one or more functions as arguments</li>
+<li>returns a function as its result</li>
+</ul>
+<h4 id="Hidden-this"><a href="#Hidden-this" class="headerlink" title="Hidden this"></a>Hidden this</h4><p><code>this</code> is the <strong>context</strong> in which the function operates.  Its meaning depends on how the function is invoked.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myObject = &#123;</div><div class="line">     value: <span class="number">0</span>,</div><div class="line">     increment: <span class="function"><span class="keyword">function</span> (<span class="params">inc</span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.value += <span class="keyword">typeof</span> inc === <span class="string">'number'</span> ? inc : <span class="number">1</span>;</div><div class="line">     &#125;</div><div class="line">&#125;;</div><div class="line">myObject.increment();</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> value = <span class="number">5</span>;</div><div class="line"><span class="keyword">var</span> myObject = &#123;</div><div class="line">  value : <span class="number">3</span>;</div><div class="line">  double : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">     <span class="keyword">var</span> helper = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">this</span>.value = <span class="keyword">this</span>.value * <span class="number">2</span>;</div><div class="line">     &#125;</div><div class="line">     helper();</div><div class="line">  &#125;;</div><div class="line">&#125;;</div><div class="line">myObject.value; <span class="comment">// :(, value is still 3</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Fruit = <span class="function"><span class="keyword">function</span>(<span class="params">nm</span>)</span>&#123;</div><div class="line">   <span class="keyword">this</span>.name = nm;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> apple = <span class="keyword">new</span> Fruit(<span class="string">'apple'</span>);</div><div class="line"><span class="keyword">var</span> orange = <span class="keyword">new</span> Fruit(<span class="string">'orange'</span>);</div><div class="line">apple.__proto__ == orange.__proto__; <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> i;</div><div class="line">    <span class="keyword">var</span> total = <span class="number">0</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="built_in">arguments</span>.length; i++)&#123;</div><div class="line">        total += <span class="built_in">arguments</span>[i]; <span class="comment">//arguments is an object with attribute length</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> total;</div><div class="line">&#125;</div><div class="line">sum.apply(<span class="literal">null</span>, [<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>]);</div></pre></td></tr></table></figure>
+<h4 id="Closure"><a href="#Closure" class="headerlink" title="Closure"></a>Closure</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i;</div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)&#123;</div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(i);&#125;, <span class="number">2000</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">for(i = 0; i &lt; 3; i++)&#123;</div><div class="line">  setTimeout(function(k)&#123;</div><div class="line">               return function()&#123;</div><div class="line">                  console.log(k);</div><div class="line">               &#125;</div><div class="line">            &#125;(i)</div><div class="line">            , 2000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Why Closure?</p>
+<p><strong>Encapsulation</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gen1 = &#123;<span class="attr">num</span>: <span class="number">0</span>,</div><div class="line">           getVal: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                      <span class="keyword">return</span> <span class="keyword">this</span>.num++;</div><div class="line">                   &#125;</div><div class="line">           &#125;;</div><div class="line">gen1.getVal();</div><div class="line">gen1.num = <span class="number">42</span>;</div><div class="line">gen1.getVal();<span class="comment">//Oops!</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Generator</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.getVal = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> num++;&#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> gen2 = <span class="keyword">new</span> Generator(<span class="number">0</span>);</div><div class="line">gen2.getVal(); <span class="comment">// 0</span></div><div class="line">gen2.num = <span class="number">42</span>;</div><div class="line">gen2.getVal(); <span class="comment">// 1</span></div></pre></td></tr></table></figure></p>
+<p><strong>Context Binding</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  nm : <span class="string">'eric'</span>,</div><div class="line">  callMe: <span class="function"><span class="keyword">function</span>(<span class="params">other</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(other + <span class="string">' greeted:hi,'</span> + <span class="keyword">this</span>.nm);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">setTimeout(obj.callMe, <span class="number">1000</span>);</div><div class="line">setTimeout(obj.callMe.apply(obj, [<span class="string">'bob'</span>]), <span class="number">8000</span>);</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">targetObj</span>)</span>&#123;</div><div class="line">   <span class="keyword">var</span> method = <span class="keyword">this</span>,</div><div class="line">       slice = <span class="built_in">Array</span>.prototype.slice,</div><div class="line">       args = slice.apply(<span class="built_in">arguments</span>,[<span class="number">1</span>]);</div><div class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       method.apply(targetObj, args);</div><div class="line">   &#125;;</div><div class="line">&#125;;</div><div class="line">setTimeout(obj.callMe.bind(obj, <span class="string">'bob'</span>), <span class="number">3000</span>);</div></pre></td></tr></table></figure>
+<h4 id="Prototype-Revisited"><a href="#Prototype-Revisited" class="headerlink" title="Prototype Revisited"></a>Prototype Revisited</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//an elegant example form Javascript: Good Parts</span></div><div class="line"><span class="built_in">Function</span>.prototype.method = <span class="function"><span class="keyword">function</span> (<span class="params">name, func</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.prototype[name]) &#123;</div><div class="line">        <span class="keyword">this</span>.prototype[name] = func;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="built_in">String</span>.method(<span class="string">'trim'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^\s+|\s+$/g</span>, <span class="string">''</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="Run-to-Complete-amp-Single-Thread-Model"><a href="#Run-to-Complete-amp-Single-Thread-Model" class="headerlink" title="Run to Complete &amp; Single Thread Model"></a>Run to Complete &amp; Single Thread Model</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result = <span class="literal">false</span>;</div><div class="line"><span class="keyword">var</span> blocker = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> consulted = <span class="literal">false</span>;</div><div class="line"><span class="keyword">while</span>(blocker)&#123;</div><div class="line">    <span class="keyword">if</span>(!consulted)&#123;</div><div class="line">        $http.get(baseUrl+ <span class="string">"/dosth"</span>).success(</div><div class="line">            <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                result = data.result;</div><div class="line">                blocker = <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line">        ).error(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                $log.debug(<span class="string">"Error from server: "</span> + angular.toJson());</div><div class="line">                blocker = <span class="literal">false</span>;</div><div class="line">            &#125;);</div><div class="line">        consulted = <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Simulation<br><img src="/images/js_singleThread.png"></p>
+<p>Another Example<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</div><div class="line">&#125;</div><div class="line">setTimeout(f, <span class="number">0</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">' world!'</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="Debugging"><a href="#Debugging" class="headerlink" title="Debugging"></a>Debugging</h3><p>Open Chrome, Press F12. That’s all, have fun!</p>
+<h3 id="Garbage-Collection"><a href="#Garbage-Collection" class="headerlink" title="Garbage Collection"></a>Garbage Collection</h3><h3 id="Brower-Objects"><a href="#Brower-Objects" class="headerlink" title="Brower Objects"></a>Brower Objects</h3><ul>
+<li>Window</li>
+<li>Screen</li>
+<li>Location</li>
+<li>Navigation</li>
+<li>Timing</li>
+<li>Cookie</li>
+</ul>
+<p><a href="http://www.w3schools.com/js/js_ex_browser.asp" target="_blank" rel="external">Browser Obj</a></p>
+<h3 id="Java-amp-Javascript"><a href="#Java-amp-Javascript" class="headerlink" title="Java &amp; Javascript"></a>Java &amp; Javascript</h3><p>Humor</p>
+<ul>
+<li>Car &amp; Carpet</li>
+<li>Ham &amp; Hamster</li>
+</ul>
+<p>However, Java does have an execute engine for javascript<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.script.*;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EvalScript</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">// create a script engine manager</span></div><div class="line">        ScriptEngineManager factory = <span class="keyword">new</span> ScriptEngineManager();</div><div class="line">        <span class="comment">// create a JavaScript engine</span></div><div class="line">        ScriptEngine engine = factory.getEngineByName(<span class="string">"JavaScript"</span>);</div><div class="line">        <span class="comment">// evaluate JavaScript code from String</span></div><div class="line">        engine.eval(<span class="string">"print('Hello, World')"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>See <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/scripting/programmer_guide/" target="_blank" rel="external">Javascript Engine</a> for details</p>
+<h3 id="Server-Side"><a href="#Server-Side" class="headerlink" title="Server Side"></a>Server Side</h3><p>Javascript has rose to prominence! <a href="https://nodejs.org/en/" target="_blank" rel="external">NodeJs</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Javascript/">Javascript</a>, <a href="/tags/Training/">Training</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

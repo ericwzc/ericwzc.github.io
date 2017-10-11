@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Merge Two Sorted Linked List | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Steps to merge List1 and List2:
+
+Create one temporary Node as the head of the target list. Two pointers H, L points to the head;
+Loop until List1 or L">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Merge Two Sorted Linked List"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-05-05T16:00:00.000Z"><a href="/2010/05/06/Merge-Two-Sorted-LinkList/">2010-05-06</a></time>
+      
+      
+  
+    <h1 class="title">Merge Two Sorted Linked List</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Steps to merge List1 and List2:</p>
+<ol>
+<li>Create one temporary Node as the head of the target list. Two pointers H, L points to the head;</li>
+<li>Loop until List1 or List2 becomes null, in each iteration make the node with smaller value the next node of target list,<br>breaks the original chain.</li>
+<li>If List1 is null, chain List2 to target list, otherwise append List1 to target list;</li>
+<li>Remove the temporary head, return the succeeding node.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSortedLinkedList</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">merge</span><span class="params">(LinkedNode l1, LinkedNode l2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> l2;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> l1;</div><div class="line">        &#125;</div><div class="line">        LinkedNode head = <span class="keyword">new</span> LinkedNode(<span class="number">0</span>);</div><div class="line">        LinkedNode last = head;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</div><div class="line">                last.next = l1;</div><div class="line">                last = l1;</div><div class="line">                l1 = helper(l1);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                last.next = l2;</div><div class="line">                last = l2;</div><div class="line">                l2 = helper(l2);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) &#123;</div><div class="line">            last.next = l2;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            last.next = l1;</div><div class="line">        &#125;</div><div class="line">        last = head.next;</div><div class="line">        head = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span> last;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">helper</span><span class="params">(LinkedNode small)</span> </span>&#123;</div><div class="line">        LinkedNode tmp = small.next;</div><div class="line">        small.next = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span> tmp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        LinkedNode l1 = <span class="keyword">new</span> LinkedNode(<span class="number">1</span>);</div><div class="line">        LinkedNode l2 = <span class="keyword">new</span> LinkedNode(<span class="number">3</span>);</div><div class="line">        LinkedNode l3 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l4 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l5 = <span class="keyword">new</span> LinkedNode(<span class="number">5</span>);</div><div class="line"></div><div class="line">        l1.next = l2;</div><div class="line">        l3.next = l4;</div><div class="line">        l4.next = l5;</div><div class="line">        LinkedNode result = merge(l1, l3);</div><div class="line">        <span class="keyword">while</span>(result != <span class="keyword">null</span>)&#123;</div><div class="line">            System.out.print(result.val);</div><div class="line">            result = result.next;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Loop invariant: Target list is sorted, pointer L points to last node, node(s) in target list break from original list.</p>
+<ol>
+<li>Before the while loop, apparently the assertion is true;</li>
+<li>After loop one, it still holds as illustrated in the diagram;</li>
+<li>When the while loop exits, the lower list is empty, L stays at its last node, the upper list stands apart from the sorted one.</li>
+</ol>
+<p><img src="/images/loop_invariant.png" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Linked-List/">Linked List</a>, <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

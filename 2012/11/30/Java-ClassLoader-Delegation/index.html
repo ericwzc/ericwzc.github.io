@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java ClassLoader Delegation Model | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Every java developer must bear this in mind. This is the default java class loading mechanism.   
+
+Let’s illustrate the following snippet of code:
+imp">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java ClassLoader Delegation Model"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-29T16:00:00.000Z"><a href="/2012/11/30/Java-ClassLoader-Delegation/">2012-11-30</a></time>
+      
+      
+  
+    <h1 class="title">Java ClassLoader Delegation Model</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Every java developer must bear this in mind. This is the default java class loading mechanism.   </p>
+<p><img src="/images/defaultloader.png" alt=""></p>
+<p>Let’s illustrate the following snippet of code:</p>
+<pre><code class="java"><span class="keyword">import</span> sun.net.spi.nameservice.dns.DNSNameServiceDescriptor;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultLoading</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+        System.out.println(<span class="string">"DefaultLoading loader:"</span> + DefaultLoading.class.getClassLoader());
+        String m = <span class="string">"hello"</span>;
+        System.out.println(<span class="string">"String loader:"</span>+ m.getClass().getClassLoader());
+        System.out.println(<span class="string">"DNSNameServiceDescriptor loader"</span> + DNSNameServiceDescriptor.class.getClassLoader());
+        System.out.println(<span class="string">"Duck loader:"</span> + Duck.class.getClassLoader());
+    }
+}
+</code></pre>
+<p>When I run <code>java -cp . DefaultLoading</code> in a directory that contains <em>DefaultLoading.class</em>, on my machine this outputs:   </p>
+<blockquote>
+<p>DefaultLoading loader:sun.misc.Launcher$AppClassLoader@73d16e93<br>String loader:null<br>DNSNameServiceDescriptor loadersun.misc.Launcher$ExtClassLoader@33909752<br>Duck loader:sun.misc.Launcher$AppClassLoader@73d16e93</p>
+</blockquote>
+<p>Here’s what happened:   </p>
+<ol>
+<li>By default, each loader will delegate to its parent to when a class is seen and must be resolved. This occurs recursively until we reach the bootstrap loader. If and only if none of its upstream ancestry loader could load the class will the loader try to load it itself. In this case, When JVM finds the entry class <em>DefaultLoading</em> is not loaded yet, it tries to load with system loader,which in turn delegates to extension loader. Finally the extension loader delegates to the bootstrap loader. However, <em>DefaultLoading</em> class is not part of the java core library, nor is it placed in extension loader’s path: jre/lib/ext/, so it was loaded by system loader(sun.misc.Launcher$AppClassLoader@73d16e93). </li>
+<li>Since <em>String</em> class is part is part of java.lang package, it’s loaded by the bootstrap loader, which is <em>null</em> in the output.<br>Actually, the same is true for <em>System</em> class and <em>PrintStream</em> class(which is the static <strong>out</strong> field of <em>System</em>).<br>Note that classes loaded by any of the upstream ancestor is visible to the current loader, but <strong>NOT</strong> vice versa.</li>
+<li><em>DNSNameServiceDescriptor</em> is in jre/lib/ext/dnsns.jar. That’s why its loader is ExtClassLoader;</li>
+<li>As the <strong>out</strong> field in <em>System</em>, <em>Duck</em> will be loaded by the loader that loaded <em>DefaultLoading</em>. It could be loaded by neither bootstrap nor extension loader, for it’s only available on your class path. All delegation loading fails, it’s loaded finally by the same loader of <em>DefaultLoading</em>, i.e. AppClassLoader@73d16e93</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

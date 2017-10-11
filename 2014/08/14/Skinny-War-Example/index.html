@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Skinny War Example | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Sometimes we want to share libraries in EAR sub modules to avoid fat clumsy submodules with plenty of duplicate libraries.This could be addressed easi">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Skinny War Example"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-08-13T16:00:00.000Z"><a href="/2014/08/14/Skinny-War-Example/">2014-08-14</a></time>
+      
+      
+  
+    <h1 class="title">Skinny War Example</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Sometimes we want to share libraries in EAR sub modules to avoid fat clumsy submodules with plenty of duplicate libraries.<br>This could be addressed easily using buildtools like ANT, yet may not sound easy in the Maven world. This post gives one concrete example based on some google search findings.</p>
+<p>First, the parent pom</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>eartest<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modules</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>ear<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">pluginManagement</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-war-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">                            <span class="tag">&lt;<span class="name">manifest</span>&gt;</span></div><div class="line">                                <span class="tag">&lt;<span class="name">addDefaultImplementationEntries</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addDefaultImplementationEntries</span>&gt;</span></div><div class="line">                                <span class="tag">&lt;<span class="name">addClasspath</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addClasspath</span>&gt;</span></div><div class="line">                            <span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">packagingExcludes</span>&gt;</span>WEB-INF/lib/*.jar<span class="tag">&lt;/<span class="name">packagingExcludes</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">pluginManagement</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>The only interesting part is the manifest configuration <code>&lt;addClasspath&gt;true&lt;/addClasspath&gt;</code> and <code>&lt;packagingExcludes&gt;WEB-INF/lib/*.jar&lt;/packagingExcludes&gt;</code>,<br>the net effect is to add Class-Path in manifest file, and do <strong>NOT</strong> add any jar to my WEB-INF/lib folder for I wanted all the libraries to be shared.<br>I intentionally put this into pluginManagement so any child pom will inherite this behavior by default.</p>
+<p>Next the webapp module pom,</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-war-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Nothing special here, in plugins simply declaring <code>&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</code> will suffice.</p>
+<p>Now the EAR pom,</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>ear<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>my ear<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">type</span>&gt;</span>war<span class="tag">&lt;/<span class="name">type</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-ear-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">displayName</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">displayName</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">skinnyWars</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skinnyWars</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">manifestEntries</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">Name</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">Name</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">manifestEntries</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">modules</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">webModule</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>$&#123;project.groupId&#125;<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">contextRoot</span>&gt;</span>/myapp<span class="tag">&lt;/<span class="name">contextRoot</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">bundleFileName</span>&gt;</span>myWebApp.war<span class="tag">&lt;/<span class="name">bundleFileName</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">webModule</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Two points noted here, first <code>&lt;skinnyWars&gt;true&lt;/skinnyWars&gt;</code> turns on skinny war option; second, the second dependency<br>depends on the same webapp module but of type <strong>pom</strong>, this magically package all module dependencies into the root of the<br>EAR folder, you can override the location by adding defaultLibBundleDir to configuration. e.g., <code>&lt;defaultLibBundleDir&gt;lib/&lt;/defaultLibBundleDir&gt;</code>  will put all jars to lib directory.</p>
+<p>Run <code>mvn package</code>, check file <em>META-INF/MANIFEST.MF</em></p>
+<pre>
+Manifest-Version: 1.0
+Implementation-Title: webapp
+Implementation-Version: 1.0
+Archiver-Version: Plexus Archiver
+Built-By: ericwang
+Implementation-Vendor-Id: com.test
+<b>Class-Path: log4j-1.2.17.jar</b>
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_45
+</pre>
+
+<p>The only dependency log4j with compile scope is added to ear file. The EAR structure looks exactly as expired:</p>
+<p><img src="/images/ear_structure.png" alt=""></p>
+<p>If you know a depending library is somehow always provided, then just in webapp module, set it to be optional. Then the library<br>will neither be packaged in war nor appear in <em>META-INF/MANIFEST.MF</em>.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Feel free to download the <a href="https://github.com/ericwzc/ear-skinny-war" target="_blank" rel="external">code</a> and play.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Maven/">Maven</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

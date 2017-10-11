@@ -1,0 +1,434 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 2 | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-03-23T16:00:00.000Z"><a href="/2017/03/24/Weight-Problem-Upgraded/">2017-03-24</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/03/24/Weight-Problem-Upgraded/">Weight Problem Upgraded</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Thanks for my colleague Edward’s reminder of inequality. Let’s rewording the problem like below:</p>
+<p>A business man has a weight of 80 pounds.  Unfortunately he dropped his weight and this weight was broken into 4 pieces.  Fortunately, each piece is still of integer pounds, i.e. the number of the pounds of each piece is still an integer.  Meanwhile, it is amazing that using these 4 pieces, this business man can weigh anything of integer pounds from 1 - 80 pounds.<br>How much does each of this four pieces weigh?</p>
+<p>由理想情况的讨论，我们知道4个砝码至多能产生40种不同重量。如何来衡量80种不同的重量？看来在40基础上翻倍即可。<br>分析如下：</p>
+<p>基于不等式，我们可以通过算出区间使得x2 = x1 + 2，由于要称的东西是整数，所以可以断定位于区间内的物品重量。<br><img src="/images/weight_ne.png" alt=""></p>
+<p>理想情况，我们期望可以使这些可算出的重量值均匀分布，以便重量数目翻倍。<br><img src="/images/weight_eqdist.png" alt=""></p>
+<p>Aha, 只需double原来的序列即可使得每个不同重量的间隔为2，从而得出这四块分别是：54,18,6,2</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-03-22T16:00:00.000Z"><a href="/2017/03/23/Weight-Problem/">2017-03-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/03/23/Weight-Problem/">Weight Problem</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The Weight Problem of Bachet de Meziriac</p>
+<p>A business man has a weight of 40 pounds.  Unfortunately he dropped his weight and this weight was broken into 4 pieces.  Fortunately, each piece is still of integer pounds, i.e. the number of the pounds of each piece is still an integer.  Meanwhile, it is amazing that using these four pieces, this business man can weigh anything of integer pounds from 1 - 40 pounds.<br>How much does each of this four pieces weigh?</p>
+<p>这个问题描述相对于国内网站要严谨很多，这不会使人轻易误入歧途。该题目至少很快告诉这信息：四个砝码的重量均在40之下，且和等于40。</p>
+<p>这里就先不考虑不等式了，在均衡情况下给出一个还像样的证明：<br>我们先分析一下理想情况，假设我们已经有若干个砝码且共能称出n种不同重量，那么再加一个更重一点的砝码最多会增加多少种重量呢？若这个新砝码的重量是m，我们至多能增加2n+1种不同重量。<br>理由如下：</p>
+<ol>
+<li>对于n种重量中的每个x, 我们可以做减法，m-x, 由于是理想情况，所以m-x 不等于n中任何已知的重量。</li>
+<li>我们可以做加法m+x，得到一种不同重量。</li>
+<li>还有就是m本身的重量</li>
+</ol>
+<p>按照这种思路，我们4个砝码理想情况下能表达不同重量的极限是多少？<br>1个. 1种<br>2个. 1 + (1 + 2 * 1) =  4种<br>3个. 4 + (1 + 2 * 4) = 13种<br>4个. 13 + (1 + 2 * 13) = 40种</p>
+<p>完美！所以这四个太巧了，刚好是理想情况。由于理想情况的假设是每次加一个更重的砝码，所以可断定这4个砝码一定没有重量相同的,直观上第n个砝码只要取2S<sub>n-1</sub>+1就可以保证这些数是稠密的(等差序列)。<br>我们来逆推一下最重的那个砝码的重量, 13 + 13 + 1 = 27<br><img src="/images/weight_problem.png" alt=""></p>
+<p>类似可以得出这四个砝码由重到轻分别是27,9,3,1<br>似乎这些砝码是3的等比序列，我们来用数学归纳法证明一下，<br>假设A<sub>n</sub>对应于第n个砝码的位置，由理想情况分析可知，S<sub>n</sub>=3S<sub>n-1</sub>+1,<br>而A<sub>n</sub>=2(S<sub>n</sub>-1)/3+1=(2S<sub>n</sub>+1)/3,<br>A<sub>n+1</sub>=(2S<sub>n+1</sub>+1)/3=(2(3S<sub>n</sub>+1)+1)/3=3(2S<sub>n</sub>+1)/3=3A<sub>n</sub></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-02-22T16:00:00.000Z"><a href="/2017/02/23/Git-Guideline/">2017-02-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/02/23/Git-Guideline/">Git Guideline</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>Don’t rewrite <strong>SHARED</strong> history</li>
+<li>Rebase often in your local copy<br><code>git rebase -i targetbranch</code></li>
+<li>Make branch creation daily business</li>
+<li>Fetch is always harmless<br><code>git fetch origin</code></li>
+<li>Never share unless you are linearly ahead of remote<br><code>git rebase origin/master</code></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-19T16:00:00.000Z"><a href="/2017/01/20/Twenty-Four-2/">2017-01-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/01/20/Twenty-Four-2/">24 problem solution(Brute Force)</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>暴力求解</p>
+<p>全部代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">__author__ = <span class="string">'ericwang'</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> fractions <span class="keyword">import</span> Fraction</div><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</div><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</div><div class="line"></div><div class="line">oprs = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'*'</span>, <span class="string">'/'</span>]</div><div class="line">opr_f = &#123;</div><div class="line">    <span class="string">'+'</span>: <span class="keyword">lambda</span> x, y: x + y,</div><div class="line">    <span class="string">'-'</span>: <span class="keyword">lambda</span> x, y: x - y,</div><div class="line">    <span class="string">'*'</span>: <span class="keyword">lambda</span> x, y: x * y,</div><div class="line">    <span class="string">'/'</span>: <span class="keyword">lambda</span> x, y: x / y</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, val, l=None, r=None)</span>:</span></div><div class="line">        self.val = val</div><div class="line">        self.lft = l</div><div class="line">        self.rgt = r</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isopr</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            oprs.index(self.val)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">        <span class="keyword">except</span> ValueError:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.isopr():</div><div class="line">            <span class="keyword">return</span> self.val</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            cidx = oprs.index(self.val)</div><div class="line">            <span class="keyword">if</span> cidx &lt; <span class="number">2</span>:</div><div class="line">                <span class="keyword">return</span> str(self.lft) + self.val + str(self.rgt)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">return</span> self.subexpr(self.lft, cidx) + self.val + self.subexpr(self.rgt, cidx)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subexpr</span><span class="params">(self, n, p)</span>:</span></div><div class="line">        <span class="keyword">if</span> n <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">''</span></div><div class="line">        <span class="keyword">if</span> n.isopr():</div><div class="line">            idx = oprs.index(n.val)</div><div class="line">            <span class="keyword">if</span> idx &lt; <span class="number">2</span> <span class="keyword">or</span> idx == p <span class="keyword">and</span> p == <span class="number">3</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">'('</span> + str(n) + <span class="string">')'</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">return</span> str(n)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> n.val</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute</span><span class="params">(l, history)</span>:</span></div><div class="line">    stack = []</div><div class="line">    stack2 = []</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> l:</div><div class="line">            tmp = Node(i)</div><div class="line">            <span class="keyword">if</span> tmp.isopr():</div><div class="line">                tmp.rgt = stack.pop()</div><div class="line">                tmp.lft = stack.pop()</div><div class="line">                f2 = stack2.pop()</div><div class="line">                f1 = stack2.pop()</div><div class="line">                stack2.append(opr_f[tmp.val](f1, f2))</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                stack2.append(Fraction(i))</div><div class="line">            stack.append(tmp)</div><div class="line">        <span class="keyword">if</span> stack2[<span class="number">0</span>] == Fraction(<span class="number">24</span>):</div><div class="line">            s = str(stack[<span class="number">0</span>])</div><div class="line">            <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> history:</div><div class="line">                history[s] = <span class="keyword">True</span></div><div class="line">                print(s)</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">genopr</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> m <span class="keyword">in</span> oprs:</div><div class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> oprs:</div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> oprs:</div><div class="line">                <span class="keyword">yield</span> (m, y, k)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(l, history)</span>:</span></div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;4&#125;,&#123;2&#125;,&#123;3&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;4&#125;,&#123;2&#125;,&#123;5&#125;,&#123;3&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;4&#125;,&#123;5&#125;,&#123;3&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;4&#125;,&#123;3&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;3&#125;,&#123;4&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    record = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> product(permutations([<span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'24'</span>]), genopr()):</div><div class="line">        tl = [j <span class="keyword">for</span> sub <span class="keyword">in</span> i <span class="keyword">for</span> j <span class="keyword">in</span> sub]</div><div class="line">        check(tl, record)</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-09T16:00:00.000Z"><a href="/2017/01/10/Twenty-Four/">2017-01-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/01/10/Twenty-Four/">24 problem solution</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>24点是大家比较熟悉的游戏，规则是用+,-,*,/还有括号来计算给定的4个数，结果是24.<br>思路首先要把整数转成分数，否则无法解决某些算式，例如<code>(5-1/5)*5</code>，然后可用动态规划逆推法得出最终答案。</p>
+<p><img src="/images/pattern.png" alt=""></p>
+<p>假设最终表达式满足图左结构，如果a是某个数，exp是剩下的数组成的表达式, 那么有：</p>
+<ul>
+<li>a + exp = 24 (忽略exp + a = 24)</li>
+<li>a - exp = 24 </li>
+<li>exp - a = 24</li>
+<li>a / exp = 24</li>
+<li>exp / a = 24</li>
+<li>a * exp = 24（忽略 exp * a = 24)</li>
+</ul>
+<p>答案构造规律：</p>
+<ol>
+<li>开始有四个数，目标数是24</li>
+<li>去掉一个数，由当前目标推出新目标</li>
+<li>重复这个过程，当只剩一个数时，如果恰好是目标数，则输出结果</li>
+</ol>
+<p>然而还有另外一种结构如图中，幸运的是，我们可以任选两个数组合使其转成图左</p>
+<p>全部代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Eric Wang</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwentyFour</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> Fraction val;</div><div class="line">    <span class="keyword">static</span> String expr;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] t1 = &#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t2 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t3 = &#123;<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t4 = &#123;<span class="number">7</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">9</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[] t5 = &#123;<span class="number">1</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">10</span>&#125;;</div><div class="line">        t5 = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">24</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">24</span>&#125;;</div><div class="line">        compute(t5);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Arrays.stream(nums).forEach(i -&gt; list.add(<span class="keyword">new</span> Fraction(i, <span class="number">1</span>)));</div><div class="line">        Fraction target = <span class="keyword">new</span> Fraction(<span class="number">24</span>, <span class="number">1</span>);</div><div class="line">        compute(list, target, <span class="string">"%s"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; list.size(); j++) &#123;</div><div class="line">                <span class="keyword">if</span> (i != j) &#123;</div><div class="line">                    combineAndCompute(i, j, list, target);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">combineAndCompute</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, List&lt;Fraction&gt; list, Fraction target)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; copy = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Fraction fi = list.get(i);</div><div class="line">        Fraction fj = list.get(j);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; list.size(); k++) &#123;</div><div class="line">            <span class="keyword">if</span> (k != i &amp;&amp; k != j) &#123;</div><div class="line">                copy.add(list.get(k));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Fraction add = fi.add(fj);</div><div class="line">        val = add;</div><div class="line">        expr = String.format(<span class="string">"(%s+%s)"</span>, fi, fj);</div><div class="line">        copy.add(add);</div><div class="line">        <span class="keyword">int</span> last = copy.size() - <span class="number">1</span>;</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        Fraction minus = fi.minus(fj);</div><div class="line">        val = minus;</div><div class="line">        expr = String.format(<span class="string">"(%s-%s)"</span>, fi, fj);</div><div class="line">        copy.set(last, minus);</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        Fraction times = fi.times(fj);</div><div class="line">        val = times;</div><div class="line">        expr = String.format(<span class="string">"(%s*%s)"</span>, fi, fj);</div><div class="line">        copy.set(last, times);</div><div class="line">        compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        <span class="keyword">if</span> (fj.up != <span class="number">0</span>) &#123;</div><div class="line">            Fraction divide = fi.divide(fj);</div><div class="line">            val = divide;</div><div class="line">            expr = String.format(<span class="string">"(%s/%s)"</span>, fi, fj);</div><div class="line">            copy.set(last, divide);</div><div class="line">            compute(copy, target, <span class="string">"%s"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(List&lt;Fraction&gt; remain, Fraction target, String expr)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (remain.size() == <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (remain.get(<span class="number">0</span>).equals(target)) &#123;</div><div class="line">                String answ = String.format(expr, remain.get(<span class="number">0</span>));</div><div class="line">                <span class="keyword">if</span> (val != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (val.down == <span class="number">1</span>) &#123;</div><div class="line">                        answ = answ.replaceFirst(String.valueOf(val.up), TwentyFour.expr);</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        answ = answ.replaceFirst(String.valueOf(val), TwentyFour.expr);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                System.out.println(answ);</div><div class="line">                System.exit(<span class="number">0</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Fraction f : remain) &#123;</div><div class="line">            <span class="keyword">if</span> (f.up == <span class="number">0</span> &amp;&amp; target.up == <span class="number">0</span>) &#123; <span class="comment">// easy, simply multiply</span></div><div class="line">                System.out.println(String.format(expr, timesJoin(f, remain)));</div><div class="line">                System.exit(<span class="number">0</span>);</div><div class="line">            &#125;</div><div class="line">            compute(copy(remain, f), target.minus(f), String.format(expr, <span class="string">"(%s)+"</span> + f)); <span class="comment">// x + f = target</span></div><div class="line">            compute(copy(remain, f), target.add(f), String.format(expr, <span class="string">"(%s)-"</span> + f)); <span class="comment">// x - f = target</span></div><div class="line">            compute(copy(remain, f), f.minus(target), String.format(expr, f + <span class="string">"-(%s)"</span>)); <span class="comment">// f - x = target</span></div><div class="line">            <span class="keyword">if</span> (f.up != <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (target.up != <span class="number">0</span>)</div><div class="line">                    compute(copy(remain, f), f.divide(target), String.format(expr, f + <span class="string">"/(%s)"</span>));  <span class="comment">// f / x = target</span></div><div class="line">                compute(copy(remain, f), target.divide(f), String.format(expr, <span class="string">"(%s)*"</span> + f)); <span class="comment">// x * f = target</span></div><div class="line">                compute(copy(remain, f), target.times(f), String.format(expr, <span class="string">"(%s)/"</span> + f));  <span class="comment">// x / f = target</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> String <span class="title">timesJoin</span><span class="params">(Fraction f, List&lt;Fraction&gt; remain)</span> </span>&#123;</div><div class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder(f.toString());</div><div class="line">        <span class="keyword">for</span> (Fraction fr : remain) &#123;</div><div class="line">            <span class="keyword">if</span> (fr != f ) &#123;</div><div class="line">                sb.append(<span class="string">"*"</span>);</div><div class="line">                sb.append(fr);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sb.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> List&lt;Fraction&gt; <span class="title">copy</span><span class="params">(List&lt;Fraction&gt; set, Fraction toRemove)</span> </span>&#123;</div><div class="line">        List&lt;Fraction&gt; copy = <span class="keyword">new</span> ArrayList&lt;&gt;(set);</div><div class="line">        copy.remove(toRemove);</div><div class="line">        <span class="keyword">return</span> copy;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fraction</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (a == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> b;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (b == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> a;</div><div class="line">        &#125;</div><div class="line">        a = Math.abs(a);</div><div class="line">        b = Math.abs(b);</div><div class="line">        <span class="keyword">return</span> a &gt; b ? gcd(b, a % b) : gcd(a, b % a);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> up;</div><div class="line">    <span class="keyword">int</span> down;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Fraction</span><span class="params">(<span class="keyword">int</span> up, <span class="keyword">int</span> down)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (down == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> gcd = gcd(up, down);</div><div class="line">        <span class="keyword">this</span>.up = up / gcd;</div><div class="line">        <span class="keyword">this</span>.down = down / gcd;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass()) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        Fraction fraction = (Fraction) o;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (up != fraction.up) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">return</span> down == fraction.down;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> result = up;</div><div class="line">        result = <span class="number">31</span> * result + down;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (down == <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">return</span> up + <span class="string">""</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> up + <span class="string">"/"</span> + down;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">add</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down + down * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">minus</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down - down * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">times</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.up, down * other.down);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Fraction <span class="title">divide</span><span class="params">(Fraction other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Fraction(up * other.down, down * other.up);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-10-09T16:00:00.000Z"><a href="/2016/10/10/Git-Common-Commands/">2016-10-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/10/10/Git-Common-Commands/">Git Common Commands</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="Squash-Commits"><a href="#Squash-Commits" class="headerlink" title="Squash Commits"></a>Squash Commits</h3><p><code>git commit --fixup sha1</code> then rebase by <code>git rebase -i --autosquash</code>, automatically combines commits relevant to <strong>sha1</strong>.</p>
+<h3 id="Find-out-merge-base"><a href="#Find-out-merge-base" class="headerlink" title="Find out merge base"></a>Find out merge base</h3><p><code>git merge-base branch master</code></p>
+<h3 id="Find-changes-in-branch"><a href="#Find-changes-in-branch" class="headerlink" title="Find changes in branch"></a>Find changes in branch</h3><p><code>git diff --name-only branch master</code></p>
+<h3 id="Diff-two-commits-of-one-file"><a href="#Diff-two-commits-of-one-file" class="headerlink" title="Diff two commits of one file"></a>Diff two commits of one file</h3><p><code>git diff commit1 commit2 file1</code></p>
+<h3 id="Find-first-commit-in-branch-given-branch-is-based-on-master"><a href="#Find-first-commit-in-branch-given-branch-is-based-on-master" class="headerlink" title="Find first commit in branch(given branch is based on master)"></a>Find first commit in branch(given branch is based on master)</h3><p><code>git log master..branch --oneline | tail -1</code></p>
+<h3 id="List-files-in-a-commit"><a href="#List-files-in-a-commit" class="headerlink" title="List files in a commit"></a>List files in a commit</h3><p><code>git diff-tree --no-commit-id --name-only -r sha1</code></p>
+<h3 id="Show-stash-change"><a href="#Show-stash-change" class="headerlink" title="Show stash change"></a>Show stash change</h3><p><code>git stash show -p stash@{0}</code></p>
+<h3 id="Pretty-log"><a href="#Pretty-log" class="headerlink" title="Pretty log"></a>Pretty log</h3><p><code>git config --global alias.lg &quot;log --graph --abbrev-commit --decorate --date=relative --format=format:&#39;%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)&#39; --all&quot;</code></p>
+<p>run <code>git lg</code></p>
+<h3 id="Diff-two-files-of-different-branch"><a href="#Diff-two-files-of-different-branch" class="headerlink" title="Diff two files of different branch"></a>Diff two files of different branch</h3><p><code>git diff branch1:full/path/to/foo.txt branch2:full/path/to/foo-another.txt</code></p>
+<h3 id="Update-remote-url"><a href="#Update-remote-url" class="headerlink" title="Update remote url"></a>Update remote url</h3><p><code>git remote set-url origin git://new.url.here</code></p>
+<h3 id="Rename-branch"><a href="#Rename-branch" class="headerlink" title="Rename branch"></a>Rename branch</h3><p><code>git branch -m Release1.1 release/1.1.0</code></p>
+<h3 id="Track-remote-branch"><a href="#Track-remote-branch" class="headerlink" title="Track remote branch"></a>Track remote branch</h3><p><code>git branch -u origin/serverfix localBranch</code></p>
+<h3 id="Remove-locally-a-already-deleted-remote-branch"><a href="#Remove-locally-a-already-deleted-remote-branch" class="headerlink" title="Remove locally a already deleted remote branch"></a>Remove locally a already deleted remote branch</h3><p><code>git fetch origin --prune</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-31T16:00:00.000Z"><a href="/2016/08/01/Linux-Static-Router-Handson/">2016-08-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/08/01/Linux-Static-Router-Handson/">Linux Static Router Handson</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>All created with virtualbox:</p>
+<ul>
+<li>server1 private network —- inet1</li>
+<li>server2 private network —- inet2</li>
+<li>router with two adapters inet1 and inet2</li>
+</ul>
+<ol>
+<li>Router configuration<br>Virutalbox–network, adapter 1 set to internal network inet1(192.168.2.0)<br>adapter 2 set to internal network inet2(192.168.3.0)</li>
+</ol>
+<p>edit <code>/etc/network/interfaces</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">auto enp0s3</div><div class="line">iface enp0s3 inet static</div><div class="line">address 192.168.2.1</div><div class="line">netmask 255.255.255.0</div><div class="line"></div><div class="line">auto enp0s8</div><div class="line">iface enp0s8 inet static</div><div class="line">address 192.168.3.1</div><div class="line">netmask 255.255.255.0</div></pre></td></tr></table></figure>
+<p>edit <code>/etc/sysctl.conf</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward=1</div></pre></td></tr></table></figure></p>
+<p>reboot, and check with command<br><code>cat /proc/sys/net/ipv4/ip_forward</code></p>
+<ol>
+<li>server1 setup<br>Virutalbox–network, adapter 1 set to internal network inet1(192.168.2.0),<br>edit <code>/etc/network/interfaces</code><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">auto enp0s3</div><div class="line">iface enp0s3 inet static</div><div class="line">address 192.168.2.10</div><div class="line">netmask 255.255.255.0</div><div class="line">gateway 192.168.2.1</div><div class="line"></div><div class="line"><span class="meta">#</span> static route</div><div class="line">up route add -net 192.168.3.0/24 gw 192.168.2.1 dev enp0s3</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>reboot</p>
+<p>3 server2 setup<br>Virutalbox–network, adapter 1 set to internal network inet2(192.168.3.0)<br>edit <code>/etc/network/interfaces</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">auto enp0s3</div><div class="line">iface enp0s3 inet static</div><div class="line">address 192.168.3.10</div><div class="line">netmask 255.255.255.0</div><div class="line">gateway 192.168.3.1</div><div class="line"></div><div class="line"><span class="meta">#</span> static route</div><div class="line">up route add -net 192.168.2.0/24 gw 192.168.3.1 dev enp0s3</div></pre></td></tr></table></figure></p>
+<p>reboot</p>
+<ol>
+<li>now in server1, ping 192.168.3.10</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/" class="alignleft prev">Prev</a>
+  
+  
+    <a href="/page/3/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-11T16:00:00.000Z"><a href="/2017/08/12/Median-Of-Two-Ordered-Array/">2017-08-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/08/12/Median-Of-Two-Ordered-Array/">Median of Two Sorted Array</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The problem: Find the median of two sorted array</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"math"</span></div><div class="line">	<span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a, b := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;, []<span class="keyword">int</span>&#123;<span class="number">0</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>&#125;</div><div class="line">	total := <span class="built_in">len</span>(a) + <span class="built_in">len</span>(b)</div><div class="line">	m := mid(<span class="number">0</span>, total)</div><div class="line">	m1 := findN(a, b, m)</div><div class="line">	<span class="keyword">if</span> total &amp; <span class="number">1</span> == <span class="number">1</span> &#123;</div><div class="line">		fmt.Println(m1)</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		fmt.Println(<span class="keyword">float64</span>(m1 + findN(a, b, m+<span class="number">1</span>)) / <span class="number">2</span>)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findN</span><span class="params">(a []<span class="keyword">int</span>, b []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	ai, aj := <span class="number">0</span>, <span class="built_in">len</span>(a) - <span class="number">1</span></div><div class="line">	bi, bj := <span class="number">0</span>, <span class="built_in">len</span>(b) - <span class="number">1</span></div><div class="line"></div><div class="line">	<span class="keyword">for</span> ai &lt;= aj &amp;&amp; bi &lt;= bj &#123;</div><div class="line">		am := mid(ai, aj)</div><div class="line">		bm := mid(bi, bj)</div><div class="line"></div><div class="line">		<span class="keyword">if</span> a[am] &gt;= b[bm] &#123;</div><div class="line">			count := bm - bi + <span class="number">1</span> + am - ai</div><div class="line">			<span class="keyword">if</span> count &gt;= target &#123;</div><div class="line">				aj = am - <span class="number">1</span> <span class="comment">// trunk upper</span></div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				target -= bm - bi + <span class="number">1</span></div><div class="line">				bi = bm + <span class="number">1</span>  <span class="comment">// trunk lower</span></div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			count := am - ai + <span class="number">1</span> + bm - bi</div><div class="line">			<span class="keyword">if</span> count &gt;= target &#123;</div><div class="line">				bj = bm - <span class="number">1</span> <span class="comment">// trunk upper</span></div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				target -= am - ai + <span class="number">1</span></div><div class="line">				ai = am + <span class="number">1</span> <span class="comment">// trunk lower</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ai &gt; aj &#123; <span class="comment">// a empty</span></div><div class="line">		<span class="keyword">return</span> b[bi+target<span class="number">-1</span>]</div><div class="line">	&#125; <span class="keyword">else</span> &#123; <span class="comment">// b empty</span></div><div class="line">		<span class="keyword">return</span> a[ai+target<span class="number">-1</span>]</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mid</span><span class="params">(i <span class="keyword">int</span>, j <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">int</span>(math.Ceil((<span class="keyword">float64</span>(i) + <span class="keyword">float64</span>(j)) / <span class="number">2</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The following picture visualizes how it works.<br><img src="/images/how_median_works.png" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-10T16:00:00.000Z"><a href="/2017/08/11/Dispatch-Teachers/">2017-08-11</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/08/11/Dispatch-Teachers/">Dispatch Teachers</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The problem:<br>Dispatch n computer teachers to m schools, but ensure each school has at least one computer teacher, list all possibilities.<br>Note here assumes no difference among computer teachers.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> TCS <span class="keyword">int</span> = <span class="number">6</span></div><div class="line"><span class="keyword">const</span> SCHS <span class="keyword">int</span> = <span class="number">3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> schools [SCHS]<span class="keyword">int</span></div><div class="line"><span class="keyword">var</span> counter <span class="keyword">int</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">dispatch</span><span class="params">(tc <span class="keyword">int</span>, idx <span class="keyword">int</span>)</span></span> &#123; <span class="comment">//brute force, count invocations</span></div><div class="line">  counter += <span class="number">1</span></div><div class="line">  <span class="comment">// no tc left, skip</span></div><div class="line">  <span class="keyword">if</span> idx &gt;= <span class="number">0</span> &amp;&amp; tc == <span class="number">0</span> &#123;</div><div class="line">    <span class="keyword">return</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// still tc left, ignore</span></div><div class="line">  <span class="keyword">if</span> idx &lt; <span class="number">0</span> &amp;&amp; tc != <span class="number">0</span> &#123;</div><div class="line">    <span class="keyword">return</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// got one case</span></div><div class="line">  <span class="keyword">if</span> idx &lt; <span class="number">0</span> &amp;&amp; tc == <span class="number">0</span> &#123;</div><div class="line">    fmt.Println(schools)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= tc; i++ &#123;</div><div class="line">      <span class="comment">// put 1..tc</span></div><div class="line">      schools[idx] = i <span class="comment">// set cur</span></div><div class="line">      dispatch(tc - i, idx - <span class="number">1</span>) <span class="comment">// set next</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">dispatch2</span><span class="params">(tc <span class="keyword">int</span>, idx <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">  counter += <span class="number">1</span> <span class="comment">// count invocation</span></div><div class="line">  <span class="keyword">if</span> idx == <span class="number">0</span> &#123;</div><div class="line">    schools[idx] = tc <span class="comment">// last, set left</span></div><div class="line">    fmt.Println(schools)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= tc - idx; i++ &#123;<span class="comment">// at least 1, max TCS - idx</span></div><div class="line">      schools[idx] = i <span class="comment">// set cur</span></div><div class="line">      dispatch2(tc - i, idx - <span class="number">1</span>) <span class="comment">// set next</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">  dispatch2(TCS, SCHS - <span class="number">1</span>)</div><div class="line">  fmt.Println(counter)</div><div class="line">  counter = <span class="number">0</span></div><div class="line">  dispatch(TCS, SCHS - <span class="number">1</span>)</div><div class="line">  fmt.Println(counter)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Both work fine, but dispatch2 works much faster compared to dispatch. The trick is using index to calc max and placing schools backward.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-06T16:00:00.000Z"><a href="/2017/08/07/Horse-Race-In-Go/">2017-08-07</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/08/07/Horse-Race-In-Go/">Horse Race in Go</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Mock horse race in go, simulating thinking in java example. </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">  <span class="string">"math/rand"</span></div><div class="line">  <span class="string">"fmt"</span></div><div class="line">  <span class="string">"time"</span></div><div class="line">  <span class="string">"strings"</span></div><div class="line">  <span class="string">"sync"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> RACE_MAX <span class="keyword">int</span> = <span class="number">200</span></div><div class="line"><span class="keyword">const</span> NUM_HORSE  = <span class="number">5</span></div><div class="line"><span class="keyword">const</span> MAX_RACE = <span class="number">35</span></div><div class="line"><span class="keyword">const</span> INTERVAL = <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> horses = [NUM_HORSE]<span class="keyword">string</span>&#123;<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> HorseState <span class="keyword">struct</span> &#123;</div><div class="line">  name  <span class="keyword">string</span></div><div class="line">  miles <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">runHorse</span><span class="params">(name <span class="keyword">string</span>)</span> &lt;-<span class="title">chan</span> <span class="title">HorseState</span></span> &#123;</div><div class="line">  fmt.Printf(<span class="string">"%s starts running\n"</span>, name)</div><div class="line">  c := <span class="built_in">make</span>(<span class="keyword">chan</span> HorseState)</div><div class="line">  mile := <span class="number">0</span></div><div class="line">  <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> &#123;</div><div class="line">      <span class="keyword">select</span> &#123;</div><div class="line">      <span class="keyword">case</span> c &lt;- HorseState&#123;name: name, miles: mile&#125;:</div><div class="line">      <span class="keyword">default</span>:</div><div class="line">        <span class="keyword">if</span> mile != RACE_MAX &#123;</div><div class="line">          time.Sleep(time.Millisecond * <span class="number">500</span>)</div><div class="line">          mile += rand.Intn(<span class="number">8</span>)</div><div class="line">          <span class="keyword">if</span> mile &gt; RACE_MAX &#123;</div><div class="line">            mile = RACE_MAX</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;()</div><div class="line">  <span class="keyword">return</span> c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h HorseState)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">  <span class="keyword">return</span> fmt.Sprintf(<span class="string">"%s%s"</span>, strings.Repeat(<span class="string">"*"</span>, h.miles), h.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">  cs := <span class="built_in">make</span>([]&lt;-<span class="keyword">chan</span> HorseState, <span class="number">0</span>, NUM_HORSE)</div><div class="line">  <span class="keyword">for</span> _, h := <span class="keyword">range</span> horses &#123;</div><div class="line">    cs = <span class="built_in">append</span>(cs, runHorse(h))</div><div class="line">  &#125;</div><div class="line">  ticker := time.NewTicker(time.Second * INTERVAL)</div><div class="line">  timer := time.NewTimer(time.Second * MAX_RACE)</div><div class="line">  states := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]HorseState)</div><div class="line">  Done:</div><div class="line">  <span class="keyword">for</span> &#123;</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">    <span class="keyword">case</span> &lt;-ticker.C:</div><div class="line">      <span class="keyword">var</span> wg sync.WaitGroup</div><div class="line">      wg.Add(NUM_HORSE)</div><div class="line">      <span class="keyword">for</span> _, c := <span class="keyword">range</span> cs &#123;</div><div class="line">        cur := c</div><div class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(&lt;-<span class="keyword">chan</span> HorseState)</span></span> &#123;</div><div class="line">          state := &lt;-cur</div><div class="line">          states[state.name] = state</div><div class="line">          wg.Done()</div><div class="line">        &#125;(cur)</div><div class="line">      &#125;</div><div class="line">      wg.Wait()</div><div class="line">      fmt.Println(strings.Repeat(<span class="string">"="</span>, RACE_MAX))</div><div class="line">      <span class="keyword">var</span> winner <span class="keyword">string</span></div><div class="line">      <span class="keyword">for</span> h, s := <span class="keyword">range</span> states &#123;</div><div class="line">        fmt.Println(s)</div><div class="line">        <span class="keyword">if</span> s.miles == RACE_MAX &#123;</div><div class="line">          winner = h</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> winner != <span class="string">""</span> &#123;</div><div class="line">        fmt.Printf(<span class="string">"%s wins"</span>, winner)</div><div class="line">        <span class="keyword">break</span> Done;</div><div class="line">      &#125;</div><div class="line">    <span class="keyword">case</span> &lt;-timer.C:</div><div class="line">      fmt.Println(<span class="string">"race time out!"</span>)</div><div class="line">      ticker.Stop()</div><div class="line">      <span class="keyword">break</span> Done;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-01T16:00:00.000Z"><a href="/2017/08/02/Capture-Free-ShadowSocks-Servers/">2017-08-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/08/02/Capture-Free-ShadowSocks-Servers/">Capture Free Shadowsocks Servers</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Here’s some code to update servers for your shadow socks client.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line"><span class="keyword">import</span> zbarlight</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> base64</div><div class="line"><span class="keyword">import</span> collections</div><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">Server = collections.namedtuple(<span class="string">'Server'</span>, [<span class="string">'method'</span>,<span class="string">'password'</span>,<span class="string">'server'</span>,<span class="string">'server_port'</span>,<span class="string">'remarks'</span>,<span class="string">'timeout'</span>])</div><div class="line"></div><div class="line">baseUrl = <span class="string">"http://ss.ishadowx.com/img/qr/"</span></div><div class="line">lst = [<span class="string">"us"</span>, <span class="string">"jp"</span>, <span class="string">"sg"</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">()</span>:</span></div><div class="line">    result = []</div><div class="line">    <span class="keyword">for</span> cn <span class="keyword">in</span> lst:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>]:</div><div class="line">            url = baseUrl + cn + i + <span class="string">'.png'</span></div><div class="line">            print(<span class="string">'downloading '</span> + url)</div><div class="line">            rsp = requests.get(url)</div><div class="line">            <span class="keyword">with</span> open(<span class="string">'tmp.png'</span>, <span class="string">'w+b'</span>) <span class="keyword">as</span> f:</div><div class="line">                f.write(rsp.content)</div><div class="line">            result.append(parse(<span class="string">'tmp.png'</span>))</div><div class="line">    print(<span class="string">'servers retrived:'</span>)</div><div class="line">    print(json.dumps(result, indent=<span class="number">2</span>))</div><div class="line">    updateconfig(result)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(file_path)</span>:</span></div><div class="line">    <span class="keyword">with</span> open(file_path, <span class="string">'rb'</span>) <span class="keyword">as</span> image_file:</div><div class="line">        image = Image.open(image_file)</div><div class="line">        image.load()</div><div class="line">    codes = zbarlight.scan_codes(<span class="string">'qrcode'</span>, image)</div><div class="line">    codes = base64.b64decode(codes[<span class="number">0</span>])</div><div class="line">    codes = [ j <span class="keyword">for</span> i <span class="keyword">in</span> codes[<span class="number">3</span>:].split(<span class="string">'@'</span>) <span class="keyword">for</span> j <span class="keyword">in</span> i.split(<span class="string">':'</span>) ]</div><div class="line">    codes[<span class="number">3</span>] = int(codes[<span class="number">3</span>])</div><div class="line">    s = Server(*codes, remarks=<span class="string">''</span>, timeout=<span class="number">5</span>)</div><div class="line">    <span class="keyword">return</span> s._asdict()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateconfig</span><span class="params">(result)</span>:</span></div><div class="line">    jobj = <span class="keyword">None</span></div><div class="line">    <span class="keyword">with</span> open(<span class="string">'gui-config.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> fp:</div><div class="line">        jobj = json.load(fp)</div><div class="line">        jobj[<span class="string">'configs'</span>] = result</div><div class="line"></div><div class="line">    <span class="keyword">with</span> open(<span class="string">'gui-config.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> fp:</div><div class="line">        json.dump(jobj, fp, indent=<span class="number">2</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment">#os.environ['HTTP_PROXY'] = 'http://someproxy:80'</span></div><div class="line">    download()</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-07-11T16:00:00.000Z"><a href="/2017/07/12/Relationship-Counter/">2017-07-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/07/12/Relationship-Counter/">Relationship Counter</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>When I just started programming, Xinghui hinted one question he failed to work it out in one<br>interview. The question goes: Given n variables, and you could join them using &gt;, =, or &lt;,<br>counter how many different relations you get?</p>
+<p>Well, this is similar to a problem like below,<br>Given n teachers, and there are m schools(1 &lt;= m &lt;= n),<br>how many ways are there to dispatch teachers to the schools if a school must have at least one teacher?</p>
+<p>The only difference is that we have to accumulate all possibilities of m(from 1 to n) to get the total. </p>
+<p>I finally got a chance to write some code to solve it.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">const</span> NUM_TECH = <span class="number">4</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> factorials []<span class="keyword">int</span> = <span class="built_in">make</span>([]<span class="keyword">int</span>, NUM_TECH + <span class="number">1</span>)</div><div class="line"><span class="keyword">var</span> counter <span class="keyword">int</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> factorials &#123;</div><div class="line">		<span class="keyword">if</span> i &lt;= <span class="number">1</span> &#123;</div><div class="line">			factorials[i] = <span class="number">1</span></div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			factorials[i] = i * factorials[i - <span class="number">1</span>]</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">calc</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= NUM_TECH; i++ &#123;</div><div class="line">		schools := <span class="built_in">make</span>([]<span class="keyword">int</span>, i)</div><div class="line">		gen(<span class="number">0</span>, schools, NUM_TECH - i)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">gen</span><span class="params">(idx <span class="keyword">int</span>, schools []<span class="keyword">int</span>, remain <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> size := <span class="built_in">len</span>(schools); idx == size - <span class="number">1</span> &#123;</div><div class="line">		schools[idx] = remain</div><div class="line">		count(schools)</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt;= remain; i++ &#123;</div><div class="line">			schools[idx] = i</div><div class="line">			gen(idx + <span class="number">1</span>, schools, remain - i)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">count</span><span class="params">(schools []<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	product := <span class="number">1</span></div><div class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> schools &#123;</div><div class="line">		product *= factorials[v + <span class="number">1</span>]</div><div class="line">	&#125;</div><div class="line">	counter += factorials[<span class="built_in">len</span>(factorials) - <span class="number">1</span>] / product</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	calc()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>On further study, this number turns out to be <a href="https://en.wikipedia.org/wiki/Ordered_Bell_number" target="_blank" rel="external">Ordered Bell number</a>. That again proves that<br>a programmer always wish he had learned more math.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-04-11T16:00:00.000Z"><a href="/2017/04/12/Common-Dev-Tools/">2017-04-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/04/12/Common-Dev-Tools/">Common Dev Tools</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="Diagram"><a href="#Diagram" class="headerlink" title="Diagram"></a>Diagram</h3><ul>
+<li>Enterprise Architect</li>
+<li>Gliffy</li>
+<li><a href="http://www.processon.com/" target="_blank" rel="external">Processon</a></li>
+</ul>
+<h3 id="Regular-expression"><a href="#Regular-expression" class="headerlink" title="Regular expression"></a>Regular expression</h3><ul>
+<li>RegexBuddy</li>
+<li><a href="https://regex101.com/" target="_blank" rel="external">regex101</a></li>
+</ul>
+<h3 id="Productivity"><a href="#Productivity" class="headerlink" title="Productivity"></a>Productivity</h3><ul>
+<li>Phrase Express</li>
+<li>KanbanFlow</li>
+</ul>
+<h3 id="Password"><a href="#Password" class="headerlink" title="Password"></a>Password</h3><ul>
+<li>Keepass</li>
+</ul>
+<h3 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h3><ul>
+<li>Youdao Note</li>
+</ul>
+<h3 id="Markdown"><a href="#Markdown" class="headerlink" title="Markdown"></a>Markdown</h3><ul>
+<li>Cmd </li>
+</ul>
+<h3 id="Keystore"><a href="#Keystore" class="headerlink" title="Keystore"></a>Keystore</h3><ul>
+<li>Key Store Explorer</li>
+</ul>
+<h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul>
+<li>Intellij</li>
+<li>Eclipse</li>
+</ul>
+<h3 id="Reverse-Engineering"><a href="#Reverse-Engineering" class="headerlink" title="Reverse Engineering"></a>Reverse Engineering</h3><ul>
+<li>DirtyJOE</li>
+<li>Java Snoop</li>
+<li>JAD GUI</li>
+<li>ByteCode Visualizer</li>
+<li>CFR</li>
+<li>Procyon</li>
+</ul>
+<h3 id="Penetration-Testing"><a href="#Penetration-Testing" class="headerlink" title="Penetration Testing"></a>Penetration Testing</h3><ul>
+<li>BurpSuite</li>
+</ul>
+<h3 id="System"><a href="#System" class="headerlink" title="System"></a>System</h3><ul>
+<li>FreeFileSyncPortable</li>
+</ul>
+<h3 id="Diff"><a href="#Diff" class="headerlink" title="Diff"></a>Diff</h3><ul>
+<li>Kdiff</li>
+<li>Araxis Merge</li>
+<li>Beyond Compare</li>
+</ul>
+<h3 id="Pair-Programming"><a href="#Pair-Programming" class="headerlink" title="Pair Programming"></a>Pair Programming</h3><ul>
+<li>Saros Eclipse Plugin</li>
+<li>Etherpad</li>
+</ul>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><ul>
+<li>Wireshark</li>
+<li>Tcpdump</li>
+</ul>
+<h3 id="Load-Test"><a href="#Load-Test" class="headerlink" title="Load Test"></a>Load Test</h3><ul>
+<li>Jmeter</li>
+</ul>
+<h3 id="Web-Service"><a href="#Web-Service" class="headerlink" title="Web Service"></a>Web Service</h3><ul>
+<li>SoapUI</li>
+</ul>
+<h3 id="Flowchart-Simulation"><a href="#Flowchart-Simulation" class="headerlink" title="Flowchart Simulation"></a>Flowchart Simulation</h3><ul>
+<li>Flowgorithm</li>
+</ul>
+<h3 id="Xml"><a href="#Xml" class="headerlink" title="Xml"></a>Xml</h3><ul>
+<li>Kernow</li>
+</ul>
+<h3 id="Memory-Leak"><a href="#Memory-Leak" class="headerlink" title="Memory Leak"></a>Memory Leak</h3><ul>
+<li>MAT</li>
+</ul>
+<h3 id="Mind-Map"><a href="#Mind-Map" class="headerlink" title="Mind Map"></a>Mind Map</h3><ul>
+<li>Freemind</li>
+</ul>
+<h3 id="SCM"><a href="#SCM" class="headerlink" title="SCM"></a>SCM</h3><ul>
+<li>Gitlab</li>
+</ul>
+<h3 id="DB"><a href="#DB" class="headerlink" title="DB"></a>DB</h3><ul>
+<li>Sql developer</li>
+<li>Navicat</li>
+</ul>
+<h3 id="Lightweight-Editor"><a href="#Lightweight-Editor" class="headerlink" title="Lightweight Editor"></a>Lightweight Editor</h3><ul>
+<li>Vim</li>
+<li>VsCode</li>
+</ul>
+<h3 id="Writing"><a href="#Writing" class="headerlink" title="Writing"></a>Writing</h3><ul>
+<li>Markdown</li>
+<li>Asciidoc</li>
+</ul>
+<h3 id="Missing-TOOLS-in-Windows"><a href="#Missing-TOOLS-in-Windows" class="headerlink" title="Missing TOOLS in Windows"></a>Missing TOOLS in Windows</h3><ul>
+<li>Cygwin</li>
+</ul>
+<h3 id="Remote-Control"><a href="#Remote-Control" class="headerlink" title="Remote Control"></a>Remote Control</h3><ul>
+<li>TeamViewer</li>
+</ul>
+<h3 id="REST-tset"><a href="#REST-tset" class="headerlink" title="REST tset"></a>REST tset</h3><ul>
+<li>Postman</li>
+<li>Curl</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-03-25T16:00:00.000Z"><a href="/2017/03/26/Weight-Problem-Finalized/">2017-03-26</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/03/26/Weight-Problem-Finalized/">Weight Problem Finalized</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>讨论一下一般情况下如何解此类问题。<br>求证： 如果n位于区间（S<sub>m-1</sub>,S<sub>m</sub>],S<sub>m-1</sub>是m-1个数能通过加减法表示的数的上限, S<sub>m</sub>是m个数能表示的数的上限,一定可以通过m个数通过加减法构造出序列[1,2,3,…,n],前m-1个数可用S<sub>m-1</sub>的最大值推出, 第m个数即n - S<sub>m-1</sub>.<br>证明：<br>依题假设前m-1个数可表示的数的序列为[1,2,..,S<sub>m-1</sub>]<br>现在分段考虑第m个数的一般情况,</p>
+<ol>
+<li>n在区间[2S<sub>m-1</sub>+1,S<sub>m</sub>], 令m = n - S<sub>m-1</sub>, 只需证明新增的值能涵盖区间[S<sub>m-1</sub>+1,n]就够了<br>S<sub>m</sub> = 3S<sub>m-1</sub> + 1<br>n = S<sub>m</sub>-1, m = 2S<sub>m-1</sub> =&gt; 应用相加得[2S<sub>m-1</sub>+1, …, 3S<sub>m-1</sub>],相减得[2S<sub>m-1</sub>-1, 2S<sub>m-1</sub>-2,…, S<sub>m-1</sub>+1, S<sub>m-1</sub>]<br>n = S<sub>m</sub>-2, m = 2S<sub>m-1</sub> - 1 =&gt; 应用相加得[2S<sub>m-1</sub>, …, 3S<sub>m-1</sub>-1],相减得[2S<sub>m-1</sub>-2, 2S<sub>m-1</sub>-3,…, S<sub>m-1</sub>-1]<br>…<br>n = 2S<sub>m-1</sub>+1, m = S<sub>m-1</sub>+1 =&gt; 应用相加得[S<sub>m-1</sub>+2, …, 2S<sub>m-1</sub>+1],相减得[S<sub>m-1</sub>, S<sub>m-1</sub>-1,…, 1]<br>显然结论成立</li>
+<li>n在区间[S<sub>m-1</sub> + 1,2S<sub>m-1</sub>],令m = n - S<sub>m-1</sub>,此时对m做减法和m本身已经不会增加新值了,唯一产生新数值的方法是加法,同样来证明m值能产生[S<sub>m-1</sub>+1,n]中的所有数<br>n = 2S<sub>m-1</sub>, m = S<sub>m-1</sub> =&gt; [S<sub>m-1</sub> + 1, …, 2S<sub>m-1</sub>]<br>n = 2S<sub>m-1</sub> - 1, m = S<sub>m-1</sub> - 1 =&gt; [S<sub>m-1</sub>,S<sub>m-1</sub> + 1, …, 2S<sub>m-1</sub>]<br>…<br>n = S<sub>m-1</sub> + 1, m = 1 =&gt; [2,…,S<sub>m-1</sub> + 1]<br>结论依然成立 </li>
+</ol>
+<p>综上分析，可以用下述程序构造出整个序列<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getSeries</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> (n &gt;= i) &#123;</div><div class="line">        list.add(i);</div><div class="line">        n -= i;</div><div class="line">        i += i &lt;&lt; <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (n != <span class="number">0</span>)</div><div class="line">        list.add(n);</div><div class="line">    System.out.println(list);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<nav id="pagination">
+  
+  
+    <a href="/page/2/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

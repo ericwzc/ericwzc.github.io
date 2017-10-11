@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Horse Race in Go | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Mock horse race in go, simulating thinking in java example. 
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Horse Race in Go"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-06T16:00:00.000Z"><a href="/2017/08/07/Horse-Race-In-Go/">2017-08-07</a></time>
+      
+      
+  
+    <h1 class="title">Horse Race in Go</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Mock horse race in go, simulating thinking in java example. </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">  <span class="string">"math/rand"</span></div><div class="line">  <span class="string">"fmt"</span></div><div class="line">  <span class="string">"time"</span></div><div class="line">  <span class="string">"strings"</span></div><div class="line">  <span class="string">"sync"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> RACE_MAX <span class="keyword">int</span> = <span class="number">200</span></div><div class="line"><span class="keyword">const</span> NUM_HORSE  = <span class="number">5</span></div><div class="line"><span class="keyword">const</span> MAX_RACE = <span class="number">35</span></div><div class="line"><span class="keyword">const</span> INTERVAL = <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> horses = [NUM_HORSE]<span class="keyword">string</span>&#123;<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> HorseState <span class="keyword">struct</span> &#123;</div><div class="line">  name  <span class="keyword">string</span></div><div class="line">  miles <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">runHorse</span><span class="params">(name <span class="keyword">string</span>)</span> &lt;-<span class="title">chan</span> <span class="title">HorseState</span></span> &#123;</div><div class="line">  fmt.Printf(<span class="string">"%s starts running\n"</span>, name)</div><div class="line">  c := <span class="built_in">make</span>(<span class="keyword">chan</span> HorseState)</div><div class="line">  mile := <span class="number">0</span></div><div class="line">  <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> &#123;</div><div class="line">      <span class="keyword">select</span> &#123;</div><div class="line">      <span class="keyword">case</span> c &lt;- HorseState&#123;name: name, miles: mile&#125;:</div><div class="line">      <span class="keyword">default</span>:</div><div class="line">        <span class="keyword">if</span> mile != RACE_MAX &#123;</div><div class="line">          time.Sleep(time.Millisecond * <span class="number">500</span>)</div><div class="line">          mile += rand.Intn(<span class="number">8</span>)</div><div class="line">          <span class="keyword">if</span> mile &gt; RACE_MAX &#123;</div><div class="line">            mile = RACE_MAX</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;()</div><div class="line">  <span class="keyword">return</span> c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h HorseState)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">  <span class="keyword">return</span> fmt.Sprintf(<span class="string">"%s%s"</span>, strings.Repeat(<span class="string">"*"</span>, h.miles), h.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">  cs := <span class="built_in">make</span>([]&lt;-<span class="keyword">chan</span> HorseState, <span class="number">0</span>, NUM_HORSE)</div><div class="line">  <span class="keyword">for</span> _, h := <span class="keyword">range</span> horses &#123;</div><div class="line">    cs = <span class="built_in">append</span>(cs, runHorse(h))</div><div class="line">  &#125;</div><div class="line">  ticker := time.NewTicker(time.Second * INTERVAL)</div><div class="line">  timer := time.NewTimer(time.Second * MAX_RACE)</div><div class="line">  states := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]HorseState)</div><div class="line">  Done:</div><div class="line">  <span class="keyword">for</span> &#123;</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">    <span class="keyword">case</span> &lt;-ticker.C:</div><div class="line">      <span class="keyword">var</span> wg sync.WaitGroup</div><div class="line">      wg.Add(NUM_HORSE)</div><div class="line">      <span class="keyword">for</span> _, c := <span class="keyword">range</span> cs &#123;</div><div class="line">        cur := c</div><div class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(&lt;-<span class="keyword">chan</span> HorseState)</span></span> &#123;</div><div class="line">          state := &lt;-cur</div><div class="line">          states[state.name] = state</div><div class="line">          wg.Done()</div><div class="line">        &#125;(cur)</div><div class="line">      &#125;</div><div class="line">      wg.Wait()</div><div class="line">      fmt.Println(strings.Repeat(<span class="string">"="</span>, RACE_MAX))</div><div class="line">      <span class="keyword">var</span> winner <span class="keyword">string</span></div><div class="line">      <span class="keyword">for</span> h, s := <span class="keyword">range</span> states &#123;</div><div class="line">        fmt.Println(s)</div><div class="line">        <span class="keyword">if</span> s.miles == RACE_MAX &#123;</div><div class="line">          winner = h</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> winner != <span class="string">""</span> &#123;</div><div class="line">        fmt.Printf(<span class="string">"%s wins"</span>, winner)</div><div class="line">        <span class="keyword">break</span> Done;</div><div class="line">      &#125;</div><div class="line">    <span class="keyword">case</span> &lt;-timer.C:</div><div class="line">      fmt.Println(<span class="string">"race time out!"</span>)</div><div class="line">      ticker.Stop()</div><div class="line">      <span class="keyword">break</span> Done;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Go/">Go</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

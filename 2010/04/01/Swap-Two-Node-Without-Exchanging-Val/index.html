@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swap Two LinkedList Node without Exchanging Value | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="First prepare some testing data to better understand this problem, or to unveil some pitfalls before jumping to code.
+
+Some node might not exist in th">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Swap Two LinkedList Node without Exchanging Value"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2010-03-31T16:00:00.000Z"><a href="/2010/04/01/Swap-Two-Node-Without-Exchanging-Val/">2010-04-01</a></time>
+      
+      
+  
+    <h1 class="title">Swap Two LinkedList Node without Exchanging Value</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>First prepare some testing data to better understand this problem, or to unveil some pitfalls before jumping to code.</p>
+<ul>
+<li>Some node might not exist in the linked list</li>
+<li>Node might be the head or the tail</li>
+<li>Node might be wellformed, with predecessor and successor</li>
+<li>Node might be adjacent</li>
+<li>Predecessor and successor might overlap</li>
+<li>Node might be null</li>
+</ul>
+<p>Formulate the General Procedure:</p>
+<ol>
+<li>Loop once to save pointers to the two nodes to be swapped</li>
+<li>Suppose node1 precedes node2 in LinkedList,<br>predecessor of node1 precedes node2<br>successor of node1 succeeds node2<br>predecessor of node2 precedes node1<br>successor of node2 succeeds node1</li>
+</ol>
+<p><img src="/images/general_proc.png" alt=""></p>
+<p>However, this doesn’t work if the two nodes are next to each other. Just need to reverse the direction in this case.</p>
+<p><img src="/images/adjacent.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedNodeSwap</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">swap</span><span class="params">(LinkedNode head, <span class="keyword">int</span> i1, <span class="keyword">int</span> i2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (i1 == i2) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line">        LinkedNode tmp = head;</div><div class="line">        LinkedNode pp1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode p1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode sp1 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode pp2 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode p2 = <span class="keyword">null</span>;</div><div class="line">        LinkedNode sp2 = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (p1 == <span class="keyword">null</span> || p2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (tmp == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tmp.val == i1 || tmp.val == i2) &#123;</div><div class="line">                <span class="keyword">if</span> (p1 == <span class="keyword">null</span>) &#123;</div><div class="line">                    p1 = tmp;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    p2 = tmp;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (p1 == <span class="keyword">null</span>) &#123;</div><div class="line">                    pp1 = tmp;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    pp2 = tmp;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            tmp = tmp.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (p1 == <span class="keyword">null</span> || p2 == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> head;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        sp1 = p1.next;</div><div class="line">        sp2 = p2.next;</div><div class="line"></div><div class="line">        <span class="comment">//pp1-&gt;p2</span></div><div class="line">        <span class="keyword">if</span> (pp1 == <span class="keyword">null</span>) &#123;</div><div class="line">            head = p2;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            pp1.next = p2;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//p2-&gt;sp1</span></div><div class="line">        <span class="comment">//pp2-&gt;p1</span></div><div class="line">        <span class="keyword">if</span> (p1.next == p2) &#123;<span class="comment">//adjacent</span></div><div class="line">            p2.next = p1;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            p2.next = sp1;</div><div class="line">            pp2.next = p1;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//p1-&gt;sp2</span></div><div class="line">        p1.next = sp2;</div><div class="line">        <span class="keyword">return</span> head;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(LinkedNode head)</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span> (head.next != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.print(head.val + <span class="string">"-&gt;"</span>);</div><div class="line">            head = head.next;</div><div class="line">        &#125;</div><div class="line">        System.out.print(head.val);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        LinkedNode l1 = <span class="keyword">new</span> LinkedNode(<span class="number">1</span>);</div><div class="line">        LinkedNode l2 = <span class="keyword">new</span> LinkedNode(<span class="number">2</span>);</div><div class="line">        LinkedNode l3 = <span class="keyword">new</span> LinkedNode(<span class="number">3</span>);</div><div class="line">        LinkedNode l4 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line">        LinkedNode l5 = <span class="keyword">new</span> LinkedNode(<span class="number">5</span>);</div><div class="line">        LinkedNode l6 = <span class="keyword">new</span> LinkedNode(<span class="number">6</span>);</div><div class="line">        LinkedNode l7 = <span class="keyword">new</span> LinkedNode(<span class="number">7</span>);</div><div class="line">        l1.next = l2;</div><div class="line">        l2.next = l3;</div><div class="line">        l3.next = l4;</div><div class="line">        l4.next = l5;</div><div class="line">        l5.next = l6;</div><div class="line"></div><div class="line">        LinkedNode head = swap(l4, <span class="number">4</span>, <span class="number">6</span>);</div><div class="line">        print(head);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Linked-List/">Linked List</a>, <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

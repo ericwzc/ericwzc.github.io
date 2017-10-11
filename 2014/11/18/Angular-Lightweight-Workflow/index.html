@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular Lightweight Workflow | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Routing in Angular Js should meet most of the requirement. However, sometimes it’s becoming difficult when the business demands a somewhat complex wor">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Angular Lightweight Workflow"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-17T16:00:00.000Z"><a href="/2014/11/18/Angular-Lightweight-Workflow/">2014-11-18</a></time>
+      
+      
+  
+    <h1 class="title">Angular Lightweight Workflow</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Routing in Angular Js should meet most of the requirement. However, sometimes it’s becoming difficult when the business demands a somewhat complex workflow. See the following flowchart:</p>
+<p><img src="/images/login-wf.png" alt=""></p>
+<p>Apparently, for password input, we need to route to another page and after that we are unable to resume the original javascript process. It’s bad if we duplicate the logic of profile check in pwd change, which lead to unmaintainable code. Promise won’t help much in this case for it’s designed to handle cross page workflow. So we need something to turn this into a linear process, yet remain flexible to jump back and forth between actions.</p>
+<p>First, we will generalize the workflow code, here’s an example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">angular.module(<span class="string">'myApp'</span>).factory(<span class="string">'WorkflowService'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Workflow</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Workflow.prototype.execute = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">delete</span> <span class="keyword">this</span>.SUSPEND;</div><div class="line">        <span class="keyword">delete</span> <span class="keyword">this</span>.callBack;</div><div class="line">        <span class="keyword">while</span> (<span class="keyword">this</span>.step &amp;&amp; !<span class="keyword">this</span>.SUSPEND) &#123;</div><div class="line">            <span class="keyword">this</span>.step.exec();</div><div class="line">            <span class="keyword">this</span>.callBack = <span class="keyword">this</span>.step.callBack;</div><div class="line">            <span class="keyword">this</span>.step = <span class="keyword">this</span>.step.next;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.callBack &amp;&amp; <span class="keyword">typeof</span> <span class="keyword">this</span>.callBack === <span class="string">"function"</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.callBack();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    Workflow.prototype.suspend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.SUSPEND = <span class="literal">true</span>;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    Workflow.prototype.resume = <span class="function"><span class="keyword">function</span> (<span class="params">step</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (step) &#123;</div><div class="line">            <span class="keyword">this</span>.step = step;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.execute();</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    Workflow.prototype.start = <span class="function"><span class="keyword">function</span> (<span class="params">initStep</span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.step = initStep;</div><div class="line">        <span class="keyword">this</span>.execute();</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span>&#123;</div><div class="line">        getWFInstance: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Workflow();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>The Sigin Service is working around one instance of the workflow. Principally, it provides all the steps, facade to setup the initial step and kick off the workflow. Note that it’s concrete step that configure the next step, and upon step suspend, it may provide a callback for some post action. Below is an example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">angular.module(<span class="string">'myApp'</span>)</div><div class="line">    .factory(<span class="string">'SignInNavService'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$location, WorkflowService</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> profile;</div><div class="line">        <span class="keyword">var</span> wf = WorkflowService.getWFInstance();</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Step</span>(<span class="params">execute</span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.exec = execute;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">var</span> steps = &#123;</div><div class="line">            pwdExpir: <span class="keyword">new</span> Step(</div><div class="line">                <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                    <span class="keyword">this</span>.next = steps.profileComplet;</div><div class="line">                    <span class="keyword">if</span> (profile.mustChangePwd) &#123;</div><div class="line">                        <span class="keyword">this</span>.callBack = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                            $location.path(<span class="string">"/change-password"</span>);</div><div class="line">                        &#125;;</div><div class="line">                        wf.suspend();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            ),</div><div class="line">            profileComplet: <span class="keyword">new</span> Step(</div><div class="line">                <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                    <span class="keyword">if</span> (!profile.profileComplete) &#123;</div><div class="line">                        <span class="built_in">console</span>.log(<span class="string">"W-007"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            )</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            start: <span class="function"><span class="keyword">function</span> (<span class="params">key</span>) </span>&#123;</div><div class="line">                wf.start(steps[key]);</div><div class="line">            &#125;,</div><div class="line">            resume: <span class="function"><span class="keyword">function</span> (<span class="params">key</span>) </span>&#123;</div><div class="line">                <span class="keyword">if</span> (key) &#123;</div><div class="line">                    wf.resume(steps[key]);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    wf.resume();</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            setup: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">                profile = data;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>Now that all is ready, we simply kick off the workflow in logincontroller:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">angular.module(<span class="string">'myApp'</span>).controller(<span class="string">'LoginCtrl'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope, SignInNavService</span>) </span>&#123;</div><div class="line"></div><div class="line">    $scope.onSubmit = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        SignInNavService.setup(&#123;</div><div class="line">            mustChangePwd: <span class="literal">true</span>, <span class="comment">//demo data</span></div><div class="line">            profileComplete: <span class="literal">false</span></div><div class="line">        &#125;);</div><div class="line">        SignInNavService.start(<span class="string">'pwdExpir'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>If navigated to password change page, we could resume the workflow on success.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">angular.module(<span class="string">'myApp'</span>).controller(<span class="string">'PwdCtrl'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope, SignInNavService</span>) </span>&#123;</div><div class="line">    $scope.onSubmit = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span>(val)&#123;</div><div class="line">          SignInNavService.resume();<span class="comment">//success case</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Javascript/">Javascript</a>, <a href="/tags/Angular/">Angular</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

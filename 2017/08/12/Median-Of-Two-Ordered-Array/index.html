@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Median of Two Sorted Array | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="The problem: Find the median of two sorted array
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Median of Two Sorted Array"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-08-11T16:00:00.000Z"><a href="/2017/08/12/Median-Of-Two-Ordered-Array/">2017-08-12</a></time>
+      
+      
+  
+    <h1 class="title">Median of Two Sorted Array</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The problem: Find the median of two sorted array</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"math"</span></div><div class="line">	<span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	a, b := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;, []<span class="keyword">int</span>&#123;<span class="number">0</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>&#125;</div><div class="line">	total := <span class="built_in">len</span>(a) + <span class="built_in">len</span>(b)</div><div class="line">	m := mid(<span class="number">0</span>, total)</div><div class="line">	m1 := findN(a, b, m)</div><div class="line">	<span class="keyword">if</span> total &amp; <span class="number">1</span> == <span class="number">1</span> &#123;</div><div class="line">		fmt.Println(m1)</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		fmt.Println(<span class="keyword">float64</span>(m1 + findN(a, b, m+<span class="number">1</span>)) / <span class="number">2</span>)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findN</span><span class="params">(a []<span class="keyword">int</span>, b []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	ai, aj := <span class="number">0</span>, <span class="built_in">len</span>(a) - <span class="number">1</span></div><div class="line">	bi, bj := <span class="number">0</span>, <span class="built_in">len</span>(b) - <span class="number">1</span></div><div class="line"></div><div class="line">	<span class="keyword">for</span> ai &lt;= aj &amp;&amp; bi &lt;= bj &#123;</div><div class="line">		am := mid(ai, aj)</div><div class="line">		bm := mid(bi, bj)</div><div class="line"></div><div class="line">		<span class="keyword">if</span> a[am] &gt;= b[bm] &#123;</div><div class="line">			count := bm - bi + <span class="number">1</span> + am - ai</div><div class="line">			<span class="keyword">if</span> count &gt;= target &#123;</div><div class="line">				aj = am - <span class="number">1</span> <span class="comment">// trunk upper</span></div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				target -= bm - bi + <span class="number">1</span></div><div class="line">				bi = bm + <span class="number">1</span>  <span class="comment">// trunk lower</span></div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			count := am - ai + <span class="number">1</span> + bm - bi</div><div class="line">			<span class="keyword">if</span> count &gt;= target &#123;</div><div class="line">				bj = bm - <span class="number">1</span> <span class="comment">// trunk upper</span></div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				target -= am - ai + <span class="number">1</span></div><div class="line">				ai = am + <span class="number">1</span> <span class="comment">// trunk lower</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ai &gt; aj &#123; <span class="comment">// a empty</span></div><div class="line">		<span class="keyword">return</span> b[bi+target<span class="number">-1</span>]</div><div class="line">	&#125; <span class="keyword">else</span> &#123; <span class="comment">// b empty</span></div><div class="line">		<span class="keyword">return</span> a[ai+target<span class="number">-1</span>]</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mid</span><span class="params">(i <span class="keyword">int</span>, j <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">int</span>(math.Ceil((<span class="keyword">float64</span>(i) + <span class="keyword">float64</span>(j)) / <span class="number">2</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The following picture visualizes how it works.<br><img src="/images/how_median_works.png" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>, <a href="/tags/Go/">Go</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Weight Problem Finalized | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="讨论一下一般情况下如何解此类问题。求证： 如果n位于区间（Sm-1,Sm],Sm-1是m-1个数能通过加减法表示的数的上限, Sm是m个数能表示的数的上限,一定可以通过m个数通过加减法构造出序列[1,2,3,…,n],前m-1个数可用Sm-1的最大值推出, 第m个数即n - Sm-1.证明：依题假设">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Weight Problem Finalized"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-03-25T16:00:00.000Z"><a href="/2017/03/26/Weight-Problem-Finalized/">2017-03-26</a></time>
+      
+      
+  
+    <h1 class="title">Weight Problem Finalized</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>讨论一下一般情况下如何解此类问题。<br>求证： 如果n位于区间（S<sub>m-1</sub>,S<sub>m</sub>],S<sub>m-1</sub>是m-1个数能通过加减法表示的数的上限, S<sub>m</sub>是m个数能表示的数的上限,一定可以通过m个数通过加减法构造出序列[1,2,3,…,n],前m-1个数可用S<sub>m-1</sub>的最大值推出, 第m个数即n - S<sub>m-1</sub>.<br>证明：<br>依题假设前m-1个数可表示的数的序列为[1,2,..,S<sub>m-1</sub>]<br>现在分段考虑第m个数的一般情况,</p>
+<ol>
+<li>n在区间[2S<sub>m-1</sub>+1,S<sub>m</sub>], 令m = n - S<sub>m-1</sub>, 只需证明新增的值能涵盖区间[S<sub>m-1</sub>+1,n]就够了<br>S<sub>m</sub> = 3S<sub>m-1</sub> + 1<br>n = S<sub>m</sub>-1, m = 2S<sub>m-1</sub> =&gt; 应用相加得[2S<sub>m-1</sub>+1, …, 3S<sub>m-1</sub>],相减得[2S<sub>m-1</sub>-1, 2S<sub>m-1</sub>-2,…, S<sub>m-1</sub>+1, S<sub>m-1</sub>]<br>n = S<sub>m</sub>-2, m = 2S<sub>m-1</sub> - 1 =&gt; 应用相加得[2S<sub>m-1</sub>, …, 3S<sub>m-1</sub>-1],相减得[2S<sub>m-1</sub>-2, 2S<sub>m-1</sub>-3,…, S<sub>m-1</sub>-1]<br>…<br>n = 2S<sub>m-1</sub>+1, m = S<sub>m-1</sub>+1 =&gt; 应用相加得[S<sub>m-1</sub>+2, …, 2S<sub>m-1</sub>+1],相减得[S<sub>m-1</sub>, S<sub>m-1</sub>-1,…, 1]<br>显然结论成立</li>
+<li>n在区间[S<sub>m-1</sub> + 1,2S<sub>m-1</sub>],令m = n - S<sub>m-1</sub>,此时对m做减法和m本身已经不会增加新值了,唯一产生新数值的方法是加法,同样来证明m值能产生[S<sub>m-1</sub>+1,n]中的所有数<br>n = 2S<sub>m-1</sub>, m = S<sub>m-1</sub> =&gt; [S<sub>m-1</sub> + 1, …, 2S<sub>m-1</sub>]<br>n = 2S<sub>m-1</sub> - 1, m = S<sub>m-1</sub> - 1 =&gt; [S<sub>m-1</sub>,S<sub>m-1</sub> + 1, …, 2S<sub>m-1</sub>]<br>…<br>n = S<sub>m-1</sub> + 1, m = 1 =&gt; [2,…,S<sub>m-1</sub> + 1]<br>结论依然成立 </li>
+</ol>
+<p>综上分析，可以用下述程序构造出整个序列<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getSeries</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> (n &gt;= i) &#123;</div><div class="line">        list.add(i);</div><div class="line">        n -= i;</div><div class="line">        i += i &lt;&lt; <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (n != <span class="number">0</span>)</div><div class="line">        list.add(n);</div><div class="line">    System.out.println(list);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

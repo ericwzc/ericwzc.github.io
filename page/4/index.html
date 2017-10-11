@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 4 | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-08T16:00:00.000Z"><a href="/2014/11/09/Javascript_Closure_Gotcha/">2014-11-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/09/Javascript_Closure_Gotcha/">Javascript Closure Gotcha</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Look at the few lines of code below, what do you expect to see on the console:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> people = [&#123;<span class="attr">name</span>: <span class="string">"eric"</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">"sunny"</span>&#125;];</div><div class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</div><div class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(people[i].name);&#125;,<span class="number">0</span>);</div><div class="line">i = <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>Surprisingly, the output is <code>sunny</code>.</p>
+<p>Code explained:</p>
+<ul>
+<li>Closure captures by reference, in line 3, variable i is captured. Note that it’s <strong>NOT</strong> the value of name that is captured.</li>
+<li>Due to <code>single thread model</code>, setTimeout only schedule the event to be fired sometime later regardless of<br>the delay time we set. In other words, the current code will <code>run to complete</code>.    </li>
+<li>When time is out(not necessarily exactly 0 milliseconds in this case, the function is called, at that time i is already 1;</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-10-29T16:00:00.000Z"><a href="/2014/10/30/Tomcat-WebAppClassLoader/">2014-10-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/10/30/Tomcat-WebAppClassLoader/">Tomcat WebappClassLoader</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Watch for the constructor and loadClass method of <code>WebappClassLoader.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebappClassLoader</span> <span class="keyword">extends</span> <span class="title">URLClassLoader</span></span></div><div class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Lifecycle</span>, <span class="title">InstrumentableClassLoader</span> </span>&#123;</div><div class="line">        ...</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">WebappClassLoader</span><span class="params">(ClassLoader parent)</span> </span>&#123;</div><div class="line"></div><div class="line">            <span class="keyword">super</span>(<span class="keyword">new</span> URL[<span class="number">0</span>], parent);</div><div class="line"></div><div class="line">            ClassLoader p = getParent();</div><div class="line">            <span class="keyword">if</span> (p == <span class="keyword">null</span>) &#123;</div><div class="line">                p = getSystemClassLoader();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">this</span>.parent = p;</div><div class="line"></div><div class="line">            ClassLoader j = String.class.getClassLoader();</div><div class="line">            <span class="keyword">if</span> (j == <span class="keyword">null</span>) &#123;</div><div class="line">                j = getSystemClassLoader();</div><div class="line">                <span class="keyword">while</span> (j.getParent() != <span class="keyword">null</span>) &#123;</div><div class="line">                    j = j.getParent();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">this</span>.j2seClassLoader = j;</div><div class="line"></div><div class="line">            securityManager = System.getSecurityManager();</div><div class="line">            <span class="keyword">if</span> (securityManager != <span class="keyword">null</span>) &#123;</div><div class="line">                refreshPolicy();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">	    ...</div><div class="line">	    <span class="keyword">public</span> <span class="keyword">synchronized</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</div><div class="line">        <span class="keyword">throws</span> ClassNotFoundException &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">            log.debug(<span class="string">"loadClass("</span> + name + <span class="string">", "</span> + resolve + <span class="string">")"</span>);</div><div class="line">        Class&lt;?&gt; clazz = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="comment">// Log access to stopped classloader</span></div><div class="line">        <span class="keyword">if</span> (!started) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            &#125; <span class="keyword">catch</span> (IllegalStateException e) &#123;</div><div class="line">                log.info(sm.getString(<span class="string">"webappClassLoader.stopped"</span>, name), e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (0) Check our previously loaded local class cache</span></div><div class="line">        clazz = findLoadedClass0(name);</div><div class="line">        <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                log.debug(<span class="string">"  Returning class from cache"</span>);</div><div class="line">            <span class="keyword">if</span> (resolve)</div><div class="line">                resolveClass(clazz);</div><div class="line">            <span class="keyword">return</span> (clazz);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (0.1) Check our previously loaded class cache</span></div><div class="line">        clazz = findLoadedClass(name);</div><div class="line">        <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                log.debug(<span class="string">"  Returning class from cache"</span>);</div><div class="line">            <span class="keyword">if</span> (resolve)</div><div class="line">                resolveClass(clazz);</div><div class="line">            <span class="keyword">return</span> (clazz);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (0.2) Try loading the class with the system class loader, to prevent</span></div><div class="line">        <span class="comment">//       the webapp from overriding J2SE classes</span></div><div class="line">        String resourceName = binaryNameToPath(name, <span class="keyword">false</span>);</div><div class="line">        <span class="keyword">if</span> (j2seClassLoader.getResource(resourceName) != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                clazz = j2seClassLoader.loadClass(name);</div><div class="line">                <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (resolve)</div><div class="line">                        resolveClass(clazz);</div><div class="line">                    <span class="keyword">return</span> (clazz);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">                <span class="comment">// Ignore</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (0.5) Permission to access this class when using a SecurityManager</span></div><div class="line">        <span class="keyword">if</span> (securityManager != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">int</span> i = name.lastIndexOf(<span class="string">'.'</span>);</div><div class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    securityManager.checkPackageAccess(name.substring(<span class="number">0</span>,i));</div><div class="line">                &#125; <span class="keyword">catch</span> (SecurityException se) &#123;</div><div class="line">                    String error = <span class="string">"Security Violation, attempt to use "</span> +</div><div class="line">                        <span class="string">"Restricted Class: "</span> + name;</div><div class="line">                    log.info(error, se);</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(error, se);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">boolean</span> delegateLoad = delegate || filter(name);</div><div class="line"></div><div class="line">        <span class="comment">// (1) Delegate to our parent if requested</span></div><div class="line">        <span class="keyword">if</span> (delegateLoad) &#123;</div><div class="line">            <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                log.debug(<span class="string">"  Delegating to parent classloader1 "</span> + parent);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                clazz = Class.forName(name, <span class="keyword">false</span>, parent);</div><div class="line">                <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                        log.debug(<span class="string">"  Loading class from parent"</span>);</div><div class="line">                    <span class="keyword">if</span> (resolve)</div><div class="line">                        resolveClass(clazz);</div><div class="line">                    <span class="keyword">return</span> (clazz);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">                <span class="comment">// Ignore</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (2) Search local repositories</span></div><div class="line">        <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">            log.debug(<span class="string">"  Searching local repositories"</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            clazz = findClass(name);</div><div class="line">            <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                    log.debug(<span class="string">"  Loading class from local repository"</span>);</div><div class="line">                <span class="keyword">if</span> (resolve)</div><div class="line">                    resolveClass(clazz);</div><div class="line">                <span class="keyword">return</span> (clazz);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">            <span class="comment">// Ignore</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// (3) Delegate to parent unconditionally</span></div><div class="line">        <span class="keyword">if</span> (!delegateLoad) &#123;</div><div class="line">            <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                log.debug(<span class="string">"  Delegating to parent classloader at end: "</span> + parent);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                clazz = Class.forName(name, <span class="keyword">false</span>, parent);</div><div class="line">                <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (log.isDebugEnabled())</div><div class="line">                        log.debug(<span class="string">"  Loading class from parent"</span>);</div><div class="line">                    <span class="keyword">if</span> (resolve)</div><div class="line">                        resolveClass(clazz);</div><div class="line">                    <span class="keyword">return</span> (clazz);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">                <span class="comment">// Ignore</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(name);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-10-28T16:00:00.000Z"><a href="/2014/10/29/Jekyll-Setup/">2014-10-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/10/29/Jekyll-Setup/">Set up Jekyll in Cygwin</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ol>
+<li>Run setup.exe to install make, ruby, bundler, gem</li>
+<li>In your root folder, create a file named “Gemfile” with the following contents:<br> <code>source &#39;https://ruby.taobao.org/&#39;</code><br> <code>gem &#39;github-pages&#39;</code></li>
+<li>Install dependent gems by running command <code>bundle install</code></li>
+<li>Make sure you add jekyll in your PATH:<br> <code>export PATH=$PATH:~/.gem/ruby/gems/jekyll-2.4.0/bin</code></li>
+<li>Export COMSPEC in your .bashrc:<br> <code>export COMSPEC=/cygdrive/c/windows/System32/cmd.exe</code></li>
+<li>Run <code>jekyll new .</code> in root directory to generate the folder structure</li>
+<li>Run <code>bundle exec jekyll serve</code>, check in browser <code>http://localhost:4000</code>.</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-09-02T16:00:00.000Z"><a href="/2014/09/03/Intersection-Point-of-Two-LinkedList/">2014-09-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/03/Intersection-Point-of-Two-LinkedList/">Find Intersection of Two Linked List</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Suppose the two linked list always converge at some point, we could use the same trick of two pointers as in detecting loop to find out where the two lists converges.<br>Given p1, p2, which points to the head of list1, list2,</p>
+<p><img src="/images/list_init.png" alt=""></p>
+<ol>
+<li>Advances p1, p2, until one linked list (say, p1) reaches the last node;<br><img src="/images/list_s1.png" alt=""></li>
+<li>Set the pointer p1 to the head of list2<br><img src="/images/list_s2.png" alt=""></li>
+<li>Advances p1, p2, until p2 reaches the last node;<br><img src="/images/list_s3.png" alt=""></li>
+<li>Set p2 to the head of list1<br><img src="/images/list_s4.png" alt=""></li>
+<li>Advance p1, p2 until p1 == p2</li>
+</ol>
+<p>Why does it work?<br>Step 1 through Step 3 is to eliminate the distance of the two linked list. Step 1 found the shorter list, Step 2 and Step 3 subtract the distance between the two lists.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Intersection</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        LinkedNode l1 = <span class="keyword">new</span> LinkedNode(<span class="number">1</span>);</div><div class="line">        LinkedNode l2 = <span class="keyword">new</span> LinkedNode(<span class="number">2</span>);</div><div class="line">        LinkedNode l3 = <span class="keyword">new</span> LinkedNode(<span class="number">3</span>);</div><div class="line">        LinkedNode l4 = <span class="keyword">new</span> LinkedNode(<span class="number">4</span>);</div><div class="line"></div><div class="line">        LinkedNode l6 = <span class="keyword">new</span> LinkedNode(<span class="number">6</span>);</div><div class="line">        LinkedNode l7 = <span class="keyword">new</span> LinkedNode(<span class="number">7</span>);</div><div class="line">        LinkedNode l8 = <span class="keyword">new</span> LinkedNode(<span class="number">8</span>);</div><div class="line"></div><div class="line">        l1.next = l2;</div><div class="line">        l2.next = l3;</div><div class="line">        l3.next = l4;</div><div class="line"></div><div class="line">        l6.next = l7;</div><div class="line">        l7.next = l8;</div><div class="line">        l8.next = l3;</div><div class="line"></div><div class="line">        LinkedNode p = intersectionPoint(l6, l1);</div><div class="line">        System.out.println(p.val);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> LinkedNode <span class="title">intersectionPoint</span><span class="params">(LinkedNode h1, LinkedNode h2)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(h1 == <span class="keyword">null</span> || h2 == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"no intersection!"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        LinkedNode p1 = h1;</div><div class="line">        LinkedNode p2 = h2;</div><div class="line"></div><div class="line">        <span class="comment">//loop until one reaches end</span></div><div class="line">        <span class="keyword">while</span> (p1.next != <span class="keyword">null</span> &amp;&amp; p2.next != <span class="keyword">null</span>) &#123;</div><div class="line">            p1 = p1.next;</div><div class="line">            p2 = p2.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (p1.next == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> helper(p1, h2, p2, h1);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> helper(p2, h1, p1, h2);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> LinkedNode <span class="title">helper</span><span class="params">(LinkedNode p1, LinkedNode h2, LinkedNode p2, LinkedNode h1)</span> </span>&#123;</div><div class="line">        p1 = h2;</div><div class="line">        <span class="comment">//until p2 reach end</span></div><div class="line">        <span class="keyword">while</span> (p2.next != <span class="keyword">null</span>) &#123;</div><div class="line">            p1 = p1.next;</div><div class="line">            p2 = p2.next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        p2 = h1;</div><div class="line">        <span class="keyword">while</span> (p1 != p2) &#123;</div><div class="line">            p1 = p1.next;</div><div class="line">            p2 = p2.next;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> p1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Note this method assumes the two linked lists <strong>MUST</strong> merge at some point!</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-08-13T16:00:00.000Z"><a href="/2014/08/14/Skinny-War-Example/">2014-08-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/14/Skinny-War-Example/">Skinny War Example</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Sometimes we want to share libraries in EAR sub modules to avoid fat clumsy submodules with plenty of duplicate libraries.<br>This could be addressed easily using buildtools like ANT, yet may not sound easy in the Maven world. This post gives one concrete example based on some google search findings.</p>
+<p>First, the parent pom</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>eartest<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modules</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>ear<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">pluginManagement</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-war-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">                            <span class="tag">&lt;<span class="name">manifest</span>&gt;</span></div><div class="line">                                <span class="tag">&lt;<span class="name">addDefaultImplementationEntries</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addDefaultImplementationEntries</span>&gt;</span></div><div class="line">                                <span class="tag">&lt;<span class="name">addClasspath</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addClasspath</span>&gt;</span></div><div class="line">                            <span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">packagingExcludes</span>&gt;</span>WEB-INF/lib/*.jar<span class="tag">&lt;/<span class="name">packagingExcludes</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">pluginManagement</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>The only interesting part is the manifest configuration <code>&lt;addClasspath&gt;true&lt;/addClasspath&gt;</code> and <code>&lt;packagingExcludes&gt;WEB-INF/lib/*.jar&lt;/packagingExcludes&gt;</code>,<br>the net effect is to add Class-Path in manifest file, and do <strong>NOT</strong> add any jar to my WEB-INF/lib folder for I wanted all the libraries to be shared.<br>I intentionally put this into pluginManagement so any child pom will inherite this behavior by default.</p>
+<p>Next the webapp module pom,</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-war-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Nothing special here, in plugins simply declaring <code>&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</code> will suffice.</p>
+<p>Now the EAR pom,</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>ear<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>my ear<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>simple-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">type</span>&gt;</span>war<span class="tag">&lt;/<span class="name">type</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-ear-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">displayName</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">displayName</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">skinnyWars</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skinnyWars</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">manifestEntries</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">Name</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">Name</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">manifestEntries</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">modules</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="name">webModule</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>$&#123;project.groupId&#125;<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">contextRoot</span>&gt;</span>/myapp<span class="tag">&lt;/<span class="name">contextRoot</span>&gt;</span></div><div class="line">                     <span class="tag">&lt;<span class="name">bundleFileName</span>&gt;</span>myWebApp.war<span class="tag">&lt;/<span class="name">bundleFileName</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="name">webModule</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>myear<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Two points noted here, first <code>&lt;skinnyWars&gt;true&lt;/skinnyWars&gt;</code> turns on skinny war option; second, the second dependency<br>depends on the same webapp module but of type <strong>pom</strong>, this magically package all module dependencies into the root of the<br>EAR folder, you can override the location by adding defaultLibBundleDir to configuration. e.g., <code>&lt;defaultLibBundleDir&gt;lib/&lt;/defaultLibBundleDir&gt;</code>  will put all jars to lib directory.</p>
+<p>Run <code>mvn package</code>, check file <em>META-INF/MANIFEST.MF</em></p>
+<pre>
+Manifest-Version: 1.0
+Implementation-Title: webapp
+Implementation-Version: 1.0
+Archiver-Version: Plexus Archiver
+Built-By: ericwang
+Implementation-Vendor-Id: com.test
+<b>Class-Path: log4j-1.2.17.jar</b>
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_45
+</pre>
+
+<p>The only dependency log4j with compile scope is added to ear file. The EAR structure looks exactly as expired:</p>
+<p><img src="/images/ear_structure.png" alt=""></p>
+<p>If you know a depending library is somehow always provided, then just in webapp module, set it to be optional. Then the library<br>will neither be packaged in war nor appear in <em>META-INF/MANIFEST.MF</em>.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Feel free to download the <a href="https://github.com/ericwzc/ear-skinny-war" target="_blank" rel="external">code</a> and play.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-11-11T16:00:00.000Z"><a href="/2013/11/12/SSL-LocalTest-with-Keytool/">2013-11-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/11/12/SSL-LocalTest-with-Keytool/">SSL Local Test with Keytool</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Keytool is shipped with JDK usually located under ${JAVA_HOME}/bin. We could use it to generate a self-singed certifcate<br>for local development test.</p>
+<ol>
+<li><p>Generate the keystore with private key. At run-time, Java check host name against the names specified in a digital certificate,<br>That’s why we set this to <em>localhost</em> for local test.<br><code>keytool -genkey -alias server -keyalg RSA -keypass changeit -storepass changeit -keystore server.keystore -dname &quot;CN=localhsot&quot;</code></p>
+</li>
+<li><p>Export the self-signed cert:<br><code>keytool -export -alias server -storepass changeit -keystore server.keystore -file server.cer</code></p>
+</li>
+<li><p>For simplicity, we use the same store to keep the self-signed cert.<br><code>keytool -import -v -trustcacerts -alias server -storepass changeit -keystore server.keystore -file server.cer</code></p>
+</li>
+</ol>
+<p>Now install the created server.store on server, please refer to the security setting manual for your server.<br>On the client side, you could set system properties or set VM arguments</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStore"</span>, <span class="string">"server.keystore"</span>);</div><div class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStorePassword"</span>, <span class="string">"changeit"</span>);</div></pre></td></tr></table></figure>
+<p>or</p>
+<p><code>-Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.trustStorePassword=changeit</code></p>
+<p>This completes one way ssl authentication. If you wanted to do two-way, just create a client keystore and repeat the same steps the othe way round.<br>The outcome is as illustrated below:</p>
+<p><img src="/images/keystore.png" alt=""></p>
+<p>What if server.keystore is deployed on another server with peculiar host name?<br>Well, you could work around that, by the code below:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(</div><div class="line">    <span class="keyword">new</span> javax.net.ssl.HostnameVerifier()&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verify</span><span class="params">(String hostname,</span></span></div><div class="line"><span class="function"><span class="params">                javax.net.ssl.SSLSession sslSession)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// disables the hostname check</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-10-19T16:00:00.000Z"><a href="/2013/10/20/Javascript_Run_to_Complete/">2013-10-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/10/20/Javascript_Run_to_Complete/">Javascript Run to Complete</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Read carefully the following code:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result = <span class="literal">false</span>;</div><div class="line"><span class="keyword">var</span> blocker = <span class="literal">true</span>;</div><div class="line"><span class="keyword">var</span> consulted = <span class="literal">false</span>;</div><div class="line"><span class="keyword">while</span>(blocker)&#123;</div><div class="line">    <span class="keyword">if</span>(!consulted)&#123;</div><div class="line">        $http.get(baseUrl+ <span class="string">"/dosth"</span>).success(</div><div class="line">            <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                result = data.result;</div><div class="line">                blocker = <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line">        ).error(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                $log.debug(<span class="string">"Error from server: "</span> + angular.toJson());</div><div class="line">                blocker = <span class="literal">false</span>;</div><div class="line">            &#125;);</div><div class="line">        consulted = <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Did you Shout out “NO!”? The code is a perfect example to demonstrates the <strong>Run to Complete</strong> nature of Javascript.</p>
+<p>It runs likes this:</p>
+<ol>
+<li>While block entered, consulted block entered. Asynchronous ajax call made against server, since asynchronous code doesn’t block,<br>the code that follows runs, <em>consulted</em> was set to true, the inner consult block is over.</li>
+<li>The code then exits when <em>blocker</em> becomes false, right? WRONG! Javascript code always <strong>Run to Complete</strong>, so effectively the<br>while code becomes an infinite loop, waiting for some change in future.</li>
+</ol>
+<p>The following diagram might make it clear:</p>
+<p><img src="/images/js_singleThread.png" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/page/3/" class="alignleft prev">Prev</a>
+  
+  
+    <a href="/page/5/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

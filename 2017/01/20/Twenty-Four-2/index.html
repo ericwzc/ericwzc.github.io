@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>24 problem solution(Brute Force) | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="暴力求解
+全部代码如下:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="24 problem solution(Brute Force)"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-19T16:00:00.000Z"><a href="/2017/01/20/Twenty-Four-2/">2017-01-20</a></time>
+      
+      
+  
+    <h1 class="title">24 problem solution(Brute Force)</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>暴力求解</p>
+<p>全部代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">__author__ = <span class="string">'ericwang'</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> fractions <span class="keyword">import</span> Fraction</div><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</div><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</div><div class="line"></div><div class="line">oprs = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'*'</span>, <span class="string">'/'</span>]</div><div class="line">opr_f = &#123;</div><div class="line">    <span class="string">'+'</span>: <span class="keyword">lambda</span> x, y: x + y,</div><div class="line">    <span class="string">'-'</span>: <span class="keyword">lambda</span> x, y: x - y,</div><div class="line">    <span class="string">'*'</span>: <span class="keyword">lambda</span> x, y: x * y,</div><div class="line">    <span class="string">'/'</span>: <span class="keyword">lambda</span> x, y: x / y</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, val, l=None, r=None)</span>:</span></div><div class="line">        self.val = val</div><div class="line">        self.lft = l</div><div class="line">        self.rgt = r</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isopr</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            oprs.index(self.val)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">        <span class="keyword">except</span> ValueError:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.isopr():</div><div class="line">            <span class="keyword">return</span> self.val</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            cidx = oprs.index(self.val)</div><div class="line">            <span class="keyword">if</span> cidx &lt; <span class="number">2</span>:</div><div class="line">                <span class="keyword">return</span> str(self.lft) + self.val + str(self.rgt)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">return</span> self.subexpr(self.lft, cidx) + self.val + self.subexpr(self.rgt, cidx)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subexpr</span><span class="params">(self, n, p)</span>:</span></div><div class="line">        <span class="keyword">if</span> n <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">''</span></div><div class="line">        <span class="keyword">if</span> n.isopr():</div><div class="line">            idx = oprs.index(n.val)</div><div class="line">            <span class="keyword">if</span> idx &lt; <span class="number">2</span> <span class="keyword">or</span> idx == p <span class="keyword">and</span> p == <span class="number">3</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">'('</span> + str(n) + <span class="string">')'</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">return</span> str(n)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> n.val</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute</span><span class="params">(l, history)</span>:</span></div><div class="line">    stack = []</div><div class="line">    stack2 = []</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> l:</div><div class="line">            tmp = Node(i)</div><div class="line">            <span class="keyword">if</span> tmp.isopr():</div><div class="line">                tmp.rgt = stack.pop()</div><div class="line">                tmp.lft = stack.pop()</div><div class="line">                f2 = stack2.pop()</div><div class="line">                f1 = stack2.pop()</div><div class="line">                stack2.append(opr_f[tmp.val](f1, f2))</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                stack2.append(Fraction(i))</div><div class="line">            stack.append(tmp)</div><div class="line">        <span class="keyword">if</span> stack2[<span class="number">0</span>] == Fraction(<span class="number">24</span>):</div><div class="line">            s = str(stack[<span class="number">0</span>])</div><div class="line">            <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> history:</div><div class="line">                history[s] = <span class="keyword">True</span></div><div class="line">                print(s)</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">genopr</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> m <span class="keyword">in</span> oprs:</div><div class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> oprs:</div><div class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> oprs:</div><div class="line">                <span class="keyword">yield</span> (m, y, k)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(l, history)</span>:</span></div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;4&#125;,&#123;2&#125;,&#123;3&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;4&#125;,&#123;2&#125;,&#123;5&#125;,&#123;3&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;4&#125;,&#123;5&#125;,&#123;3&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;4&#125;,&#123;3&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line">    compute(<span class="string">'&#123;0&#125;,&#123;1&#125;,&#123;2&#125;,&#123;3&#125;,&#123;4&#125;,&#123;5&#125;,&#123;6&#125;'</span>.format(*l).split(<span class="string">','</span>), history)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    record = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> product(permutations([<span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'0'</span>, <span class="string">'24'</span>]), genopr()):</div><div class="line">        tl = [j <span class="keyword">for</span> sub <span class="keyword">in</span> i <span class="keyword">for</span> j <span class="keyword">in</span> sub]</div><div class="line">        check(tl, record)</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>, <a href="/tags/Python/">Python</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

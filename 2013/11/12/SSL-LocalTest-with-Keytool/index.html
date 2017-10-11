@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SSL Local Test with Keytool | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="Keytool is shipped with JDK usually located under ${JAVA_HOME}/bin. We could use it to generate a self-singed certifcatefor local development test.
+
+G">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="SSL Local Test with Keytool"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-11-11T16:00:00.000Z"><a href="/2013/11/12/SSL-LocalTest-with-Keytool/">2013-11-12</a></time>
+      
+      
+  
+    <h1 class="title">SSL Local Test with Keytool</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Keytool is shipped with JDK usually located under ${JAVA_HOME}/bin. We could use it to generate a self-singed certifcate<br>for local development test.</p>
+<ol>
+<li><p>Generate the keystore with private key. At run-time, Java check host name against the names specified in a digital certificate,<br>That’s why we set this to <em>localhost</em> for local test.<br><code>keytool -genkey -alias server -keyalg RSA -keypass changeit -storepass changeit -keystore server.keystore -dname &quot;CN=localhsot&quot;</code></p>
+</li>
+<li><p>Export the self-signed cert:<br><code>keytool -export -alias server -storepass changeit -keystore server.keystore -file server.cer</code></p>
+</li>
+<li><p>For simplicity, we use the same store to keep the self-signed cert.<br><code>keytool -import -v -trustcacerts -alias server -storepass changeit -keystore server.keystore -file server.cer</code></p>
+</li>
+</ol>
+<p>Now install the created server.store on server, please refer to the security setting manual for your server.<br>On the client side, you could set system properties or set VM arguments</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStore"</span>, <span class="string">"server.keystore"</span>);</div><div class="line">System.setProperty(<span class="string">"javax.net.ssl.trustStorePassword"</span>, <span class="string">"changeit"</span>);</div></pre></td></tr></table></figure>
+<p>or</p>
+<p><code>-Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.trustStorePassword=changeit</code></p>
+<p>This completes one way ssl authentication. If you wanted to do two-way, just create a client keystore and repeat the same steps the othe way round.<br>The outcome is as illustrated below:</p>
+<p><img src="/images/keystore.png" alt=""></p>
+<p>What if server.keystore is deployed on another server with peculiar host name?<br>Well, you could work around that, by the code below:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(</div><div class="line">    <span class="keyword">new</span> javax.net.ssl.HostnameVerifier()&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verify</span><span class="params">(String hostname,</span></span></div><div class="line"><span class="function"><span class="params">                javax.net.ssl.SSLSession sslSession)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// disables the hostname check</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/SSL/">SSL</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>11</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>2</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
