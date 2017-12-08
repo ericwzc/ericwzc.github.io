@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ball Exchange Problem | Diving</title>
+  <meta name="author" content="Zhenchao Wang">
+  
+  <meta name="description" content="The problem:   
+
+We have two jars, each initially containing an equal number of balls. We perform foursuccessive ball exchanges. In each exchange, we ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Ball Exchange Problem"/>
+  <meta property="og:site_name" content="Diving"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Diving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Diving</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-12-07T16:00:00.000Z"><a href="/2017/12/08/Ball-Exchange-Problem/">2017-12-08</a></time>
+      
+      
+  
+    <h1 class="title">Ball Exchange Problem</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>The problem:   </p>
+<blockquote>
+<p>We have two jars, each initially containing an equal number of balls. We perform four<br>successive ball exchanges. In each exchange, we pick simultaneously and at random a<br>ball from each jar and move it to the other jar. What is the probability that at the<br>end of four exchanges all the balls will be in the jar where they started?</p>
+</blockquote>
+<p>First I’ve wrote Some code for verifying solutions:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> copy</div><div class="line"></div><div class="line">target, total = <span class="number">0</span>, <span class="number">0</span></div><div class="line">ao = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</div><div class="line">bo = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</div><div class="line"></div><div class="line">history = []</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">process</span><span class="params">(a, b, counter=<span class="number">0</span>)</span>:</span></div><div class="line">        <span class="keyword">global</span> target, total</div><div class="line">        <span class="keyword">if</span> counter != <span class="number">4</span>:</div><div class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> a:</div><div class="line">                        <span class="keyword">for</span> k <span class="keyword">in</span> b:</div><div class="line">                                ac = copy.deepcopy(a)</div><div class="line">                                bc = copy.deepcopy(b)</div><div class="line">                                ac.discard(i)</div><div class="line">                                bc.discard(k)</div><div class="line">                                ac.add(k)</div><div class="line">                                bc.add(i)</div><div class="line">                                history.append(<span class="string">"[%s, %s]"</span> % (i, k))</div><div class="line">                                process(ac, bc, counter + <span class="number">1</span>)</div><div class="line">                                history.pop()</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">if</span> a == ao:</div><div class="line">                        target += <span class="number">1</span></div><div class="line">                        print(history)</div><div class="line">                total += <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">        process(ao, bo)</div><div class="line">        print(<span class="string">"total: %s, target: %s"</span> % (total, target))</div></pre></td></tr></table></figure></p>
+<p>Now the math part,<br>Suppose we already exchanged a pair of balls A<sub>1</sub>, B<sub>1</sub> from jar A and jar B, each containing n balls when started. Now the tasks remains is to reverse this action within succeeding three exchanges.<br>There are four cases to consider for the second exchange:</p>
+<ol>
+<li><p>Reverse the change in round 1, which has probability 1/n<sup>2</sup><br>The rest two exchanges start all over and repeat the process, so the<br>product is 1/n<sup>4</sup><br><img src="/images/c1.png" alt=""></p>
+</li>
+<li><p>Two new ball are exchanged. Then in third and fourth round, we must restore one pair respectively.<br>The product is 4(n-1)<sup>2</sup>/n<sup>6</sup><br><img src="/images/c4.png" alt=""></p>
+</li>
+<li><p>B<sub>1</sub> remains on jar A but A<sub>1</sub> was replaced by another ball from jar A. In this case, all could be restored only one ball in ‘wrong’<br>order is replaced in third round,i.e., leaving one pair in disorder for the last round. The product is 2(n-1)<sup>2</sup>/n<sup>6</sup><br><img src="/images/c2.png" alt=""></p>
+</li>
+<li><p>A<sub>1</sub> remains on jar B but B<sub>1</sub> was replaced by another ball from jar B. That’s the symmetric process as case 3. Again, we have<br>2(n-1)<sup>2</sup>/n<sup>6</sup></p>
+</li>
+</ol>
+<p>When put together, we have<br>   1/n<sup>4</sup> + 8(n-1)<sup>2</sup>/n<sup>6</sup></p>
+<p>Test with special value:<br>n = 1, the possibility is 1. Sure this must work if each jar has one ball.<br>n = 2, the possibility is 12/64. Program result 48/256<br>n = 3, the possibility is 41/729. Program result 369/6561</p>
+<p>The derivative is 4(-9n<sup>2</sup>+20n-12)/n<sup>7</sup> &lt; 0, when n &gt;=1, the value decreases.<br>This agrees with intuition, as we have more balls, the chance to restore is getting smaller and smaller. </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>, <a href="/tags/Python/">Python</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Algorithm/">Algorithm</a><small>12</small></li>
+  
+    <li><a href="/tags/Angular/">Angular</a><small>1</small></li>
+  
+    <li><a href="/tags/Git/">Git</a><small>3</small></li>
+  
+    <li><a href="/tags/Go/">Go</a><small>4</small></li>
+  
+    <li><a href="/tags/Java/">Java</a><small>13</small></li>
+  
+    <li><a href="/tags/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/tags/Jekyll/">Jekyll</a><small>1</small></li>
+  
+    <li><a href="/tags/Linked-List/">Linked List</a><small>2</small></li>
+  
+    <li><a href="/tags/Linux/">Linux</a><small>1</small></li>
+  
+    <li><a href="/tags/Maven/">Maven</a><small>1</small></li>
+  
+    <li><a href="/tags/Network/">Network</a><small>1</small></li>
+  
+    <li><a href="/tags/Python/">Python</a><small>3</small></li>
+  
+    <li><a href="/tags/Regex/">Regex</a><small>3</small></li>
+  
+    <li><a href="/tags/SSL/">SSL</a><small>1</small></li>
+  
+    <li><a href="/tags/Spring/">Spring</a><small>2</small></li>
+  
+    <li><a href="/tags/Spring-Security/">Spring Security</a><small>1</small></li>
+  
+    <li><a href="/tags/Tool/">Tool</a><small>1</small></li>
+  
+    <li><a href="/tags/Training/">Training</a><small>1</small></li>
+  
+    <li><a href="/tags/Web-Service/">Web Service</a><small>1</small></li>
+  
+    <li><a href="/tags/XPath/">XPath</a><small>1</small></li>
+  
+    <li><a href="/tags/XSL/">XSL</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 <a href="mailto:coolcoolericwzc@163.com">Zhenchao Wang </a>
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
